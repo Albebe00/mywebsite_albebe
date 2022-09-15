@@ -15,5 +15,9 @@ title: About me
 Hi, I'm **Alberic**. I have lived nearly all my life in London so I consider myself a Englishmen even though I am French. My passions go from cooking food.
 
 ```{r, echo= FALSE, error= FALSE}
+knitr::include_graphics("/img/Thon.jpg",error= FALSE)
+```
+
+```{r, echo= FALSE, error= FALSE}
 knitr::include_graphics(c("/img/Thon.jpg","/img/Saumon.jpg"),error= FALSE)
 ```
