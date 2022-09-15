@@ -8,13 +8,5100 @@ draft: false
 image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
-slug: python
+slug: pythonn
 title: Python
 ---
 
 
 
-<p><strong>Python</strong> entered my life about 1 year ago and has not left my side since. I was first initiated to <strong>python</strong> when I was confronted with an assignment I had to hand in. I developed a <em>crypto-trading bot</em>. It was as hard as it seems, especially with no past experience in coding. Eventually <em>python</em> became my friend. I coded various algorithms during my internship at <a href="https://www.spglobal.com/en/">S&amp;P Global</a>. One algorithm calculated the under-performing stocks in an ETF. <em>Python</em> followed me when I followed an intense program at <a href="https://professional.mit.edu/course-catalog/applied-data-science-program">MIT</a> where I discovered it’s true power.</p>
+<p><strong>Python</strong> entered my life about 1 year ago and has not left my side since. I was first initiated to <strong>python</strong> when I was confronted with an assignment I had to hand in. I developed a <em>crypto-trading bot</em>. It was as hard as it seems, especially with no past experience in coding. Eventually <strong>python</strong> became my friend. I coded various algorithms during my internship at <a href="https://www.spglobal.com/en/">S&amp;P Global</a>. One algorithm calculated the under-performing stocks in an ETF. <em>Python</em> followed me when I followed an intense program at <a href="https://professional.mit.edu/course-catalog/applied-data-science-program">MIT</a> where I discovered it’s true power.</p>
+<p>In this section I will focus on my final project I handed in. <strong>(I strongly recommend a large cup of coffee if you want to go on…)</strong></p>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<div id="Project:-Amazon-Product-Recommendation-System" class="section level2">
+<h2><strong>Project: Amazon Product Recommendation System</strong><a href="#Project:-Amazon-Product-Recommendation-System" class="anchor-link">¶</a></h2>
+<p>Welcome to the project on Recommendation Systems. We will work with the
+Amazon product reviews dataset for this project. The dataset contains
+ratings of different electronic products. It does not include
+information about the products or reviews to avoid bias while building
+the model.</p>
+<hr />
+</div>
+<div id="Context" class="section level2">
+<h2><strong>Context</strong><a href="#Context" class="anchor-link">¶</a></h2>
+<hr />
+<p>E-commerce websites like Amazon, Flipkart uses different recommendation
+models to provide personalized suggestions to different users. For
+example, one of the recommendation models that Amazon uses is
+item-to-item collaborative filtering, which scales to massive data sets
+and produces high-quality recommendations in real-time.</p>
+<hr />
+</div>
+<div id="Objective" class="section level2">
+<h2><strong>Objective</strong><a href="#Objective" class="anchor-link">¶</a></h2>
+<hr />
+<p>Build a recommendation system to recommend products to customers based
+on their previous ratings for other products.</p>
+<hr />
+</div>
+<div id="Dataset" class="section level2">
+<h2><strong>Dataset</strong><a href="#Dataset" class="anchor-link">¶</a></h2>
+<hr />
+<p>The Amazon dataset contains the following attributes:</p>
 <ul>
-<li>In this section I will focus on my final project I handed in.</li>
+<li><strong>userId:</strong> Every user identified with a unique id</li>
+<li><strong>productId:</strong> Every product identified with a unique id</li>
+<li><strong>Rating:</strong> The rating of the corresponding product by the
+corresponding user</li>
+<li><strong>timestamp:</strong> Time of the rating. We <strong>will not use this column</strong>
+to solve the current problem</li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Sometimes, the installation of the surprise library, which is used to
+build recommendation systems, faces issues in Jupyter. To avoid any
+issues, it is advised to use <strong>Google Colab</strong> for this project.</p>
+<p>Let's start by mounting the Google drive on Colab.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[4\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>from google.colab import drive
+drive.mount(&#39;/content/drive&#39;)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount(&quot;/content/drive&quot;, force_remount=True).</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Installing surprise library</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[5\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>!pip install surprise</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Requirement already satisfied: surprise in /usr/local/lib/python3.7/dist-packages (0.1)
+Requirement already satisfied: scikit-surprise in /usr/local/lib/python3.7/dist-packages (from surprise) (1.1.1)
+Requirement already satisfied: numpy&gt;=1.11.2 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise-&gt;surprise) (1.21.6)
+Requirement already satisfied: scipy&gt;=1.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise-&gt;surprise) (1.7.3)
+Requirement already satisfied: six&gt;=1.10.0 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise-&gt;surprise) (1.15.0)
+Requirement already satisfied: joblib&gt;=0.11 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise-&gt;surprise) (1.1.0)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Importing-the-necessary-libraries-and-overview-of-the-dataset" class="section level2 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h2><strong>Importing the necessary libraries and overview of the dataset</strong><a href="#Importing-the-necessary-libraries-and-overview-of-the-dataset" class="anchor-link">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[6\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>import warnings                                 # Used to ignore the warning given as output of the code
+warnings.filterwarnings(&#39;ignore&#39;)
+
+import numpy as np                              # Basic libraries of python for numeric and dataframe computations
+import pandas as pd
+
+import matplotlib.pyplot as plt                 # Basic library for data visualization
+import seaborn as sns                           # Slightly advanced library for data visualization
+
+from collections import defaultdict             # A dictionary output that does not raise a key error
+
+from sklearn.metrics import mean_squared_error  # A performance metrics in sklearn</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Loading-the-data" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Loading the data</strong><a href="#Loading-the-data" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[7\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Import the dataset
+df = pd.read_csv(&#39;/content/drive/MyDrive/ratings_Electronics.csv&#39;, header = None) # There are no headers in the data file
+
+df.columns = [&#39;user_id&#39;, &#39;prod_id&#39;, &#39;rating&#39;, &#39;timestamp&#39;] # Adding column names
+
+df = df.drop(&#39;timestamp&#39;, axis = 1) # Dropping timestamp
+
+df_copy = df.copy(deep = True) # Copying the data to another DataFrame</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>As this dataset is very large and has 7,824,482 observations, it is
+not computationally possible to build a model using this. Moreover, many
+users have only rated a few products and also some products are rated by
+very few users. Hence, we can reduce the dataset by considering certain
+logical assumptions.</strong></p>
+<p>Here, we will be taking users who have given at least 50 ratings, and
+the products that have at least 5 ratings, as when we shop online we
+prefer to have some number of ratings of a product.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[8\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Get the column containing the users
+users = df.user_id
+
+# Create a dictionary from users to their number of ratings
+ratings_count = dict()
+
+for user in users:
+
+    # If we already have the user, just add 1 to their rating count
+    if user in ratings_count:        
+        ratings_count[user] += 1
+  
+    # Otherwise, set their rating count to 1
+    else:
+        ratings_count[user] = 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[9\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># We want our users to have at least 50 ratings to be considered
+RATINGS_CUTOFF = 50
+
+remove_users = []
+
+for user, num_ratings in ratings_count.items():
+    if num_ratings &lt; RATINGS_CUTOFF:
+        remove_users.append(user)
+
+df = df.loc[ ~ df.user_id.isin(remove_users)]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[10\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Get the column containing the products
+prods = df.prod_id
+
+# Create a dictionary from products to their number of ratings
+ratings_count = dict()
+
+for prod in prods:
+    
+    # If we already have the product, just add 1 to its rating count
+    if prod in ratings_count:
+        ratings_count[prod] += 1
+    
+    # Otherwise, set their rating count to 1
+    else:
+        ratings_count[prod] = 1    </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[11\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># We want our item to have at least 5 ratings to be considered
+RATINGS_CUTOFF = 5
+
+remove_users = []
+
+for user, num_ratings in ratings_count.items():
+    if num_ratings &lt; RATINGS_CUTOFF:
+        remove_users.append(user)
+
+df_final = df.loc[~ df.prod_id.isin(remove_users)]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[12\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Print a few rows of the imported dataset
+df_final.head()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[12\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-512354f3-deaa-46be-8c64-dfbd365671d4">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">user_id</th>
+<th align="left">prod_id</th>
+<th align="left">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1310</td>
+<td align="left">A3LDPF5FMB782Z</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="even">
+<td>1322</td>
+<td align="left">A1A5KUIIIHFF4U</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+<tr class="odd">
+<td>1335</td>
+<td align="left">A2XIOXRRYX0KZY</td>
+<td align="left">1400501466</td>
+<td align="left">3.0</td>
+</tr>
+<tr class="even">
+<td>1451</td>
+<td align="left">AW3LX47IHPFRL</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="odd">
+<td>1456</td>
+<td align="left">A1E3OB6QMBKRYZ</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="exploratory-data-analysis-6-marks-exploratory-data-analysis-6-marks" class="section level2 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h2><strong>Exploratory Data Analysis (6 marks)</strong><a href="#Exploratory-Data-Analysis-(6-marks)" class="anchor-link">¶</a> {#Exploratory-Data-Analysis-(6-marks)}</h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Shape-of-the-data" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Shape of the data</strong><a href="#Shape-of-the-data" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:-Check-the-number-of-rows-and-columns-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question: Check the number of rows and columns and provide observations.</strong><a href="#Question:-Check-the-number-of-rows-and-columns-and-provide-observations." class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[13\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Check the number of rows and columns and provide observations
+rows, columns = df_final.shape
+print(&quot;No of rows: &quot;, rows) 
+print(&quot;No of columns: &quot;, columns) </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>No of rows:  65290
+No of columns:  3</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: There are 65,290 users who have rated above 50 items
+that each have at least 5 ratings.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Data-types" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Data types</strong><a href="#Data-types" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:-Check-data-types-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question: Check data types and provide observations.</strong><a href="#Question:-Check-data-types-and-provide-observations." class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[14\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Check Data types and provide observations
+df_final.info()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 65290 entries, 1310 to 7824427
+Data columns (total 3 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   user_id  65290 non-null  object 
+ 1   prod_id  65290 non-null  object 
+ 2   rating   65290 non-null  float64
+dtypes: float64(1), object(2)
+memory usage: 2.0+ MB</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: There are 65,290 observations and 3 columns of data. The
+rating column is of numeric data type. The other columns are of object
+data types.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Checking-for-missing-values" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Checking for missing values</strong><a href="#Checking-for-missing-values" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Questions:-Check-for-missing-value-in-the-data-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Questions: Check for missing value in the data and provide observations.</strong><a href="#Questions:-Check-for-missing-value-in-the-data-and-provide-observations." class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[15\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Check for missing values present and provide observations
+df_final.groupby([&#39;user_id&#39;, &#39;prod_id&#39;]).count()[&#39;rating&#39;].sum()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[15\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>65290</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: There are 65,290 observations. Therefore, there are the
+same amount of observtions than users so there is no missing data and
+there is only one interaction between a pair of a user and an item.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Summary-Statistics" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Summary Statistics</strong><a href="#Summary-Statistics" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-summary-statistics-of-rating-variable-and-provide-observations.-question-summary-statistics-of-rating-variable-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question: Summary statistics of 'rating' variable and provide observations.</strong><a href="#Question:-Summary-statistics-of-&#39;rating&#39;-variable-and-provide-observations." class="anchor-link">¶</a> {#Question:-Summary-statistics-of-‘rating’-variable-and-provide-observations.}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[16\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Summary statistics of &#39;rating&#39; variable and provide observations
+df_final[&#39;rating&#39;].describe()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[16\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>count    65290.000000
+mean         4.294808
+std          0.988915
+min          1.000000
+25%          4.000000
+50%          5.000000
+75%          5.000000
+max          5.000000
+Name: rating, dtype: float64</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: There are 65,290 ratings provided by users. The average
+of the ratings is 4.29 which seems very high. This is probably because
+people who buy products and are unhappy with them do not rate the
+product. The minimum rating is 1 and the maximum rating is 5.
+Furthermore, the median is 5 wich means there are a lot of high
+ratings.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Checking-the-rating-distribution" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Checking the rating distribution</strong><a href="#Checking-the-rating-distribution" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:-Create-the-bar-plot-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question: Create the bar plot and provide observations.</strong><a href="#Question:-Create-the-bar-plot-and-provide-observations." class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[17\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Create the bar plot and provide observations
+plt.figure(figsize = (12, 6))
+
+df_final[&#39;rating&#39;].value_counts(1).plot(kind = &#39;bar&#39;)
+
+plt.xlabel(&#39;Rating&#39;)
+plt.ylabel(&#39;Count&#39;)
+plt.show()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedImage jp-OutputArea-output">
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/80e898c80a2680a2af1d1146f68fe62cf92f6ea8.png" class="jp-needs-light-background" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: The data is positively skewed and regroups a huge
+majority of 4 and 5 ratings.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Checking-the-number-of-unique-users-and-items-in-the-dataset" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Checking the number of unique users and items in the dataset</strong><a href="#Checking-the-number-of-unique-users-and-items-in-the-dataset" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[18\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Number of unique user id and product id in the data
+print(&#39;Number of unique USERS in Raw data = &#39;, df[&#39;user_id&#39;].nunique())
+print(&#39;Number of unique ITEMS in Raw data = &#39;, df[&#39;prod_id&#39;].nunique())</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>Number of unique USERS in Raw data =  1540
+Number of unique ITEMS in Raw data =  48190</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>There are <strong>1540 unique users and 5689 products</strong> in the dataset.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Users-with-the-most-number-of-ratings" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Users with the most number of ratings</strong><a href="#Users-with-the-most-number-of-ratings" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[19\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Top 10 users based on the number of ratings
+most_rated = df_final.groupby(&#39;user_id&#39;).size().sort_values(ascending = False)[:10]
+most_rated</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[19\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>user_id
+ADLVFFE4VBT8      295
+A3OXHLG6DIBRW8    230
+A1ODOGXEYECQQ8    217
+A36K2N527TXXJN    212
+A25C2M3QF9G7OQ    203
+A680RUE1FDO8B     196
+A22CW0ZHY3NJH8    193
+A1UQBFCERIP7VJ    193
+AWPODHOB4GFWL     184
+A3LGT6UZL99IW1    179
+dtype: int64</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>The highest number of <strong>ratings by a user is 295</strong> which is far from
+the actual number of products present in the data. We can build a
+recommendation system to recommend products to users which they have
+not interacted with.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="data-preparation-2-marks-data-preparation2-marks" class="section level2 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h2><strong>Data Preparation (2 Marks)</strong><a href="#Data-Preparation--(2-Marks)" class="anchor-link">¶</a> {#Data-Preparation–(2-Marks)}</h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:-Check-the-number-of-unique-USERS-and-PRODUCTS-in-the-final-data-and-provide-observations." class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question: Check the number of unique USERS and PRODUCTS in the final data and provide observations.</strong><a href="#Question:-Check-the-number-of-unique-USERS-and-PRODUCTS-in-the-final-data-and-provide-observations." class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[20\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Check the number of unique USERS and PRODUCTS in the final data and provide observations
+print(&#39;The number of observations in the final data = &#39;, len(df_final))
+
+print(&#39;Number of unique USERS in the final data = &#39;, df_final[&#39;user_id&#39;].nunique())
+
+print(&#39;Number of unique PRODUCTS in the final data = &#39;, df_final[&#39;prod_id&#39;].nunique())</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>The number of observations in the final data =  65290
+Number of unique USERS in the final data =  1540
+Number of unique PRODUCTS in the final data =  5689</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: In the final data there are 1540 unique users and there
+are 5689 products. There is a possibility of 1540 * 5689 = 8761060
+ratings possible. But we only have 65290 ratings. We can build a
+recommendations system to recommend products the users have not yet
+interacted with.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Now that we have explored and prepared the data, let's build the
+first recommendation system.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="rank-based-recommendation-system-10-marks-rank-based-recommendation-system-10-marks" class="section level2 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h2><strong>Rank Based Recommendation System (10 marks)</strong><a href="#Rank-Based-Recommendation-System-(10-marks)" class="anchor-link">¶</a> {#Rank-Based-Recommendation-System-(10-marks)}</h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[21\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>df_final.head()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[21\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-bee23858-60b9-413d-a283-bbda8a7886dc">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">user_id</th>
+<th align="left">prod_id</th>
+<th align="left">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1310</td>
+<td align="left">A3LDPF5FMB782Z</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="even">
+<td>1322</td>
+<td align="left">A1A5KUIIIHFF4U</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+<tr class="odd">
+<td>1335</td>
+<td align="left">A2XIOXRRYX0KZY</td>
+<td align="left">1400501466</td>
+<td align="left">3.0</td>
+</tr>
+<tr class="even">
+<td>1451</td>
+<td align="left">AW3LX47IHPFRL</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="odd">
+<td>1456</td>
+<td align="left">A1E3OB6QMBKRYZ</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question:<a href="#Question:" class="anchor-link">¶</a></h3>
+<ul>
+<li><strong>Create the final_rating DataFrame (4 Marks)</strong></li>
+<li><strong>Complete the code to create the function top_n_products (4
+Marks)</strong></li>
+<li><strong>Recommending top 5 products with 50 minimum interactions based on
+popularity (1 Mark)</strong></li>
+<li><strong>Recommending top 5 products with 100 minimum interactions based on
+popularity (1 Mark)</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[22\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Calculate the average rating for each product 
+average_rating = df_final.groupby(&#39;prod_id&#39;).mean()[&#39;rating&#39;]
+
+# Calculate the count of ratings for each product
+count_rating = df_final.groupby(&#39;prod_id&#39;).count()[&#39;rating&#39;]
+
+# Create a dataframe with calculated average and count of ratings
+final_rating = pd.DataFrame({&#39;avg_rating&#39;: average_rating, &#39;rating_count&#39;: count_rating})
+
+# Sort the dataframe by average of ratings in the descending order
+final_rating = final_rating.sort_values(by= [&#39;avg_rating&#39;], ascending= False)
+
+# See the first five records of the &quot;final_rating&quot; dataset
+final_rating.head()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[22\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-55f45f05-68da-4c13-b98c-e78ba380da0a">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">avg_rating</th>
+<th align="left">rating_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>prod_id</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td>B00LGQ6HL8</td>
+<td align="left">5.0</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td>B003DZJQQI</td>
+<td align="left">5.0</td>
+<td align="left">14</td>
+</tr>
+<tr class="even">
+<td>B005FDXF2C</td>
+<td align="left">5.0</td>
+<td align="left">7</td>
+</tr>
+<tr class="odd">
+<td>B00I6CVPVC</td>
+<td align="left">5.0</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td>B00B9KOCYA</td>
+<td align="left">5.0</td>
+<td align="left">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[23\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Defining a function to get the top n products based on the highest average rating and minimum interactions
+
+def top_n_products(final_rating, n, min_interaction):
+    
+    # Finding products with minimum number of interactions
+    recommendations = final_rating[final_rating[&#39;rating_count&#39;] &gt; min_interaction]
+
+    # Sorting values with respect to average rating 
+    recommendations = recommendations.sort_values(by= [&#39;avg_rating&#39;], ascending= False)
+    
+    return recommendations.index[:n]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Recommending-top-5-products-with-50-minimum-interactions-based-on-popularity" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Recommending top 5 products with 50 minimum interactions based on popularity</strong><a href="#Recommending-top-5-products-with-50-minimum-interactions-based-on-popularity" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[24\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>list(top_n_products(final_rating, 5, 50))</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[24\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>[&#39;B001TH7GUU&#39;, &#39;B003ES5ZUU&#39;, &#39;B0019EHU8G&#39;, &#39;B006W8U2MU&#39;, &#39;B000QUUFRW&#39;]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Recommending-top-5-products-with-100-minimum-interactions-based-on-popularity" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Recommending top 5 products with 100 minimum interactions based on popularity</strong><a href="#Recommending-top-5-products-with-100-minimum-interactions-based-on-popularity" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[25\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>list(top_n_products(final_rating, 5, 100))</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[25\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>[&#39;B003ES5ZUU&#39;, &#39;B000N99BBC&#39;, &#39;B007WTAJTO&#39;, &#39;B002V88HFE&#39;, &#39;B004CLYEDC&#39;]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>We have recommended the <strong>top 5</strong> products by using the popularity
+recommendation system. Now, let's build a recommendation system using
+<strong>collaborative filtering.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Collaborative-Filtering-Recommendation-System" class="section level2 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h2><strong>Collaborative Filtering Recommendation System</strong><a href="#Collaborative-Filtering-Recommendation-System" class="anchor-link">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>In this type of recommendation system, <code>we do not need any information</code>
+about the users or items. We only need user item interaction data to
+build a collaborative recommendation system. For example -</p>
+<ol style="list-style-type: decimal">
+<li><strong>Ratings</strong> provided by users. For example, ratings of books on
+goodread, movie ratings on imdb, etc.</li>
+<li><strong>Likes</strong> of users on different facebook posts, likes on youtube
+videos.</li>
+<li><strong>Use/buying</strong> of a product by users. For example, buying different
+items on e-commerce sites.</li>
+<li><strong>Reading</strong> of articles by readers on various blogs.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Types of Collaborative Filtering</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li><p>Similarity/Neighborhood based</p>
+<ul>
+<li>User-User Similarity Based</li>
+<li>Item-Item similarity based</li>
+</ul></li>
+<li><p>Model based</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Building-a-baseline-user-user-similarity-based-recommendation-system" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Building a baseline user-user similarity based recommendation system</strong><a href="#Building-a-baseline-user-user-similarity-based-recommendation-system" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Below, we are building <strong>similarity-based recommendation systems</strong>
+using <code>cosine</code> similarity and using <strong>KNN to find similar users</strong>
+which are the nearest neighbor to the given user.</li>
+<li>We will be using a new library, called <code>surprise</code>, to build the
+remaining models. Let's first import the necessary classes and
+functions from this library.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[26\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># To compute the accuracy of models
+from surprise import accuracy
+
+# Class is used to parse a file containing ratings, data should be in structure - user ; item ; rating
+from surprise.reader import Reader
+
+# Class for loading datasets
+from surprise.dataset import Dataset
+
+# For tuning model hyperparameters
+from surprise.model_selection import GridSearchCV
+
+# For splitting the rating data in train and test datasets
+from surprise.model_selection import train_test_split
+
+# For implementing similarity-based recommendation system
+from surprise.prediction_algorithms.knns import KNNBasic
+
+# For implementing matrix factorization based recommendation system
+from surprise.prediction_algorithms.matrix_factorization import SVD
+
+# for implementing K-Fold cross-validation
+from surprise.model_selection import KFold
+
+# For implementing clustering-based recommendation system
+from surprise import CoClustering</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Before building the recommendation systems, let's go over some basic
+terminologies we are going to use:</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Relevant item:</strong> An item (product in this case) that is actually
+<strong>rated higher than the threshold rating (here 3.5)</strong> is relevant, if
+the <strong>actual rating is below the threshold then it is a non-relevant
+item</strong>.</p>
+<p><strong>Recommended item:</strong> An item that's <strong>predicted rating is higher than
+the threshold (here 3.5) is a recommended item</strong>, if the <strong>predicted
+rating is below the threshold then that product will not be recommended
+to the user</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>False Negative (FN):</strong> It is the <strong>frequency of relevant items that
+are not recommended to the user</strong>. If the relevant items are not
+recommended to the user, then the user might not buy the product/item.
+This would result in the <strong>loss of opportunity for the service
+provider</strong>, which they would like to minimize.</p>
+<p><strong>False Positive (FP):</strong> It is the <strong>frequency of recommended items that
+are actually not relevant</strong>. In this case, the recommendation system is
+not doing a good job of finding and recommending the relevant items to
+the user. This would result in <strong>loss of resources for the service
+provider</strong>, which they would also like to minimize.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Recall:</strong> It is the <strong>fraction of actually relevant items that are
+recommended to the user</strong>, i.e., if out of 10 relevant products, 6 are
+recommended to the user then recall is 0.60. Higher the value of recall
+better is the model. It is one of the metrics to do the performance
+assessment of classification models.</p>
+<p><strong>Precision:</strong> It is the <strong>fraction of recommended items that are
+relevant actually</strong>, i.e., if out of 10 recommended items, 6 are found
+relevant by the user then precision is 0.60. The higher the value of
+precision better is the model. It is one of the metrics to do the
+performance assessment of classification models.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>While making a recommendation system, it becomes customary to look at
+the performance of the model. In terms of how many recommendations are
+relevant and vice-versa, below are some most used performance metrics
+used in the assessment of recommendation systems.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="precisionk-recall-k-and-f1-scorek-precisionk-recall-k-and-f1-scorek" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Precision@k, Recall@ k, and F1-score@k</strong><a href="#Precision@k,-Recall@-k,-and-F1-score@k" class="anchor-link">¶</a> {#<a href="mailto:Precision@k" class="email">Precision@k</a>,-<a href="mailto:Recall@-k" class="email">Recall@-k</a>,-<a href="mailto:and-F1-score@k" class="email">and-F1-score@k</a>}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Precision@k</strong> - It is the <strong>fraction of recommended items that are
+relevant in <code>top k</code> predictions</strong>. The value of k is the number of
+recommendations to be provided to the user. One can choose a variable
+number of recommendations to be given to a unique user.</p>
+<p><strong>Recall@k</strong> - It is the <strong>fraction of relevant items that are
+recommended to the user in <code>top k</code> predictions</strong>.</p>
+<p><strong>F1-score@k</strong> - It is the <strong>harmonic mean of Precision@k and
+Recall@k</strong>. When <strong>precision@k and recall@k both seem to be
+important</strong> then it is useful to use this metric because it is
+representative of both of them.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Some-useful-functions" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Some useful functions</strong><a href="#Some-useful-functions" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Below function takes the <strong>recommendation model</strong> as input and gives
+the <strong>precision@k, recall@k, and F1-score@k</strong> for that model.</li>
+<li>To compute <strong>precision and recall</strong>, <strong>top k</strong> predictions are taken
+under consideration for each user.</li>
+<li>We will use the precision and recall to compute the F1-score.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[27\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>def precision_recall_at_k(model, k = 10, threshold = 3.5):
+    &quot;&quot;&quot;Return precision and recall at k metrics for each user&quot;&quot;&quot;
+
+    # First map the predictions to each user
+    user_est_true = defaultdict(list)
+    
+    # Making predictions on the test data
+    predictions = model.test(testset)
+    
+    for uid, _, true_r, est, _ in predictions:
+        user_est_true[uid].append((est, true_r))
+
+    precisions = dict()
+    recalls = dict()
+    for uid, user_ratings in user_est_true.items():
+
+        # Sort user ratings by estimated value
+        user_ratings.sort(key = lambda x: x[0], reverse = True)
+
+        # Number of relevant items
+        n_rel = sum((true_r &gt;= threshold) for (_, true_r) in user_ratings)
+
+        # Number of recommended items in top k
+        n_rec_k = sum((est &gt;= threshold) for (est, _) in user_ratings[:k])
+
+        # Number of relevant and recommended items in top k
+        n_rel_and_rec_k = sum(((true_r &gt;= threshold) and (est &gt;= threshold))
+                              for (est, true_r) in user_ratings[:k])
+
+        # Precision@K: Proportion of recommended items that are relevant
+        # When n_rec_k is 0, Precision is undefined. Therefore, we are setting Precision to 0 when n_rec_k is 0
+
+        precisions[uid] = n_rel_and_rec_k / n_rec_k if n_rec_k != 0 else 0
+
+        # Recall@K: Proportion of relevant items that are recommended
+        # When n_rel is 0, Recall is undefined. Therefore, we are setting Recall to 0 when n_rel is 0
+
+        recalls[uid] = n_rel_and_rec_k / n_rel if n_rel != 0 else 0
+    
+    # Mean of all the predicted precisions are calculated.
+    precision = round((sum(prec for prec in precisions.values()) / len(precisions)), 3)
+    
+    # Mean of all the predicted recalls are calculated.
+    recall = round((sum(rec for rec in recalls.values()) / len(recalls)), 3)
+    
+    accuracy.rmse(predictions)
+    
+    print(&#39;Precision: &#39;, precision) # Command to print the overall precision
+    
+    print(&#39;Recall: &#39;, recall) # Command to print the overall recall
+    
+    print(&#39;F_1 score: &#39;, round((2*precision*recall)/(precision+recall), 3)) # Formula to compute the F-1 score</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>To compute <strong>precision and recall</strong>, a <strong>threshold of 3.5 and k
+value of 10 is taken for the recommended and relevant ratings</strong>.</li>
+<li>In the <strong>present case, precision and recall both need to be
+optimized as the service provider would like to minimize both the
+losses discussed</strong> above. Hence, the correct performance measure is
+the <strong>F_1 score</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we are loading the <strong><code>rating</code> dataset</strong>, which is a <strong>pandas
+DataFrame</strong>, into a <strong>different format called
+<code>surprise.dataset.DatasetAutoFolds</code></strong>, which is required by this
+library. To do this, we will be <strong>using the classes <code>Reader</code> and
+<code>Dataset</code>.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[28\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>df_final.head()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[28\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-765f6425-ead8-444f-8d56-7bafbd282880">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">user_id</th>
+<th align="left">prod_id</th>
+<th align="left">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1310</td>
+<td align="left">A3LDPF5FMB782Z</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="even">
+<td>1322</td>
+<td align="left">A1A5KUIIIHFF4U</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+<tr class="odd">
+<td>1335</td>
+<td align="left">A2XIOXRRYX0KZY</td>
+<td align="left">1400501466</td>
+<td align="left">3.0</td>
+</tr>
+<tr class="even">
+<td>1451</td>
+<td align="left">AW3LX47IHPFRL</td>
+<td align="left">1400501466</td>
+<td align="left">5.0</td>
+</tr>
+<tr class="odd">
+<td>1456</td>
+<td align="left">A1E3OB6QMBKRYZ</td>
+<td align="left">1400501466</td>
+<td align="left">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[29\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Instantiating Reader scale with expected rating scale
+reader = Reader(rating_scale = (0, 5))
+
+# Loading the rating dataset
+data = Dataset.load_from_df(df_final[[&#39;user_id&#39;, &#39;prod_id&#39;, &#39;rating&#39;]], reader)
+
+# Splitting the data into train and test datasets
+trainset, testset = train_test_split(data, test_size = 0.2, random_state = 42)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Now, we are <strong>ready to build the first baseline similarity-based
+recommendation system</strong> using the cosine similarity.</li>
+<li><strong>KNNBasic</strong> is an algorithm that is also <strong>associated with the
+surprise package</strong>. It is used to find the <strong>desired similar items
+among a given set of items</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-build-the-user-user-similarity-based-recommendation-system-5-marks-question--build-the-user-user-similarity-based-recommendation-system-5-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question :</strong> Build the user-user similarity-based recommendation system (5 Marks)<a href="#Question-:-Build-the-user-user-similarity-based-recommendation-system-(5-Marks)" class="anchor-link">¶</a> {#Question-:-Build-the-user-user-similarity-based-recommendation-system-(5-Marks)}</h3>
+<ul>
+<li><p><strong>Initialize the KNNBasic model using sim_options provided,
+Verbose=False, and setting random_state=1 (1 Mark)</strong></p></li>
+<li><p><strong>Fit the model on the training data (1 Mark)</strong></p></li>
+<li><p><strong>Use the precision_recall_at_k function to calculate the metrics on
+the test data (1 Mark)</strong></p></li>
+<li><p><strong>Provide your observations on the output (2 Marks)</strong></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[30\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Declaring the similarity options
+sim_options = {&#39;name&#39;: &#39;cosine&#39;,
+               &#39;user_based&#39;: True}
+
+# Initialize the KNNBasic model using sim_options provided, Verbose = False, and setting random_state = 1
+sim_user_user = KNNBasic(sim_options= sim_options, verbose= False, random_state= 1)
+
+# Fit the model on the training data
+sim_user_user.fit(trainset)
+
+# Let us compute precision@k, recall@k, and f_1 score using the precision_recall_at_k function defined above
+precision_recall_at_k(sim_user_user)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 1.0012
+Precision:  0.855
+Recall:  0.858
+F_1 score:  0.856</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: RMSE is how far are the predicted ratings to the actual
+ratings. Recall tells us that out of all the relevant products, 85.6%
+are relevant. F_1 has a high score which tells us that most of the
+movies recommended were relevant and that most of the relevant movies
+were recommended.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Let's now <strong>predict rating for a user with <code>userId=A3LDPF5FMB782Z</code> and
+<code>productId=1400501466</code></strong> as shown below. Here the user has already
+interacted or watched the product with productId '1400501466' and
+given a rating of 5 which is denoted by the parameter r_ui.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[31\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Predicting rating for a sample user with an interacted product
+sim_user_user.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, r_ui = 5, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 3.40   {&#39;actual_k&#39;: 5, &#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[31\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=5, est=3.4, details={&#39;actual_k&#39;: 5, &#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>The above output shows that <strong>the actual rating for this user-item
+pair is 5, and the predicted rating is 3.40</strong> by this
+<strong>user-user-similarity-based baseline model</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below is the <strong>list of users who have not seen the product with product
+id "1400501466"</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[32\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>df_final[df_final.prod_id == &quot;1400501466&quot;].user_id.unique()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[32\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>array([&#39;A3LDPF5FMB782Z&#39;, &#39;A1A5KUIIIHFF4U&#39;, &#39;A2XIOXRRYX0KZY&#39;,
+       &#39;AW3LX47IHPFRL&#39;, &#39;A1E3OB6QMBKRYZ&#39;, &#39;A19N3S7CBSU6O7&#39;], dtype=object)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>It can be observed from the above list that <strong>user
+"A34BZM6S9L7QI4" has not seen the product with productId
+"1400501466"</strong> as this user id is not a part of the above list.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we are <strong>predicting rating for the same <code>userId=A34BZM6S9L7QI4</code>
+but for a product which this user has not seen yet i.e.
+<code>prod_id=1400501466</code></strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[33\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Predicting rating for a sample user with a non interacted product
+sim_user_user.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[33\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.292024046561495, details={&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>The <strong>predicted rating for this user is around 4.3</strong> based on this</li>
+</ul>
+<hr />
+<p><strong>user-user similarity-based baseline model</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Improving similarity-based recommendation system by tuning its hyperparameters</strong><a href="#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below, we will be tuning hyperparameters for the <code>KNNBasic</code> algorithms.
+Let's try to understand some of the hyperparameters of the KNNBasic
+algorithm:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li><strong>k</strong> (int) – The (max) number of neighbors to take into account
+for aggregation. Default is 40.</li>
+<li><strong>min_k</strong> (int) – The minimum number of neighbors to take into
+account for aggregation. If there are not enough neighbors, the
+prediction is set to the global mean of all ratings. Default is 1.</li>
+<li><strong>sim_options</strong> (dict) – A dictionary of options for the similarity
+measure. And there are four similarity measures available in
+surprise -
+<ul>
+<li>cosine</li>
+<li>msd (default)</li>
+<li>Pearson</li>
+<li>Pearson baseline</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[34\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Setting up parameter grid to tune the hyperparameters
+param_grid = {&#39;k&#39;: [20, 30, 40], &#39;min_k&#39;: [3, 6, 9],
+              &#39;sim_options&#39;: {&#39;name&#39;: [&#39;msd&#39;, &#39;cosine&#39;],
+                              &#39;user_based&#39;: [True]}
+              }
+
+# Performing 3-fold cross-validation to tune the hyperparameters
+gs = GridSearchCV(KNNBasic, param_grid, measures = [&#39;rmse&#39;], cv = 3, n_jobs = -1)
+
+# Fitting the data
+gs.fit(data)
+
+# Best RMSE score
+print(gs.best_score[&#39;rmse&#39;])
+
+# Combination of parameters that gave the best RMSE score
+print(gs.best_params[&#39;rmse&#39;])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>0.9722058251977456
+{&#39;k&#39;: 40, &#39;min_k&#39;: 6, &#39;sim_options&#39;: {&#39;name&#39;: &#39;cosine&#39;, &#39;user_based&#39;: True}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Once the grid search is <strong>complete</strong>, we can get the <strong>optimal values
+for each of those hyperparameters</strong> as shown above.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Now, let's build the <strong>final model by using tuned values of the
+hyperparameters</strong>, which we received by using <strong>grid search
+cross-validation</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[35\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Using the optimal similarity measure for user-user based collaborative filtering
+sim_options = {&#39;name&#39;: &#39;cosine&#39;,
+               &#39;user_based&#39;: True}
+
+# Creating an instance of KNNBasic with optimal hyperparameter values
+sim_user_user_optimized = KNNBasic(sim_options = sim_options, k = 40, min_k = 6, random_state = 1, verbose = False)
+
+# Training the algorithm on the trainset
+sim_user_user_optimized.fit(trainset)
+
+# Let us compute precision@k and recall@k also with k =10
+precision_recall_at_k(sim_user_user_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 0.9526
+Precision:  0.847
+Recall:  0.894
+F_1 score:  0.87</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>We can observe that after tuning hyperparameters, <strong>F_1 score of the
+tuned model is 0.87, which is slightly better than the baseline
+model</strong>. Along with this, <strong>the RMSE of the model has gone down as
+compared to the model before hyperparameter tuning</strong>. Hence, we can
+say that the model performance has improved slightly after
+hyperparameter tuning.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Let's now <strong>predict the rating for a user with <code>userId</code> =
+"A3LDPF5FMB782Z", and prod_id = 1400501466 with the optimized model as
+shown below</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Question:</strong><a href="#Question:" class="anchor-link">¶</a></h3>
+<ul>
+<li><strong>Predict rating for the user with <code>userId</code>="A3LDPF5FMB782Z", and
+<code>prod_id</code>= 1400501466 using the optimized model (1 Mark)</strong></li>
+<li><strong>Predict rating for the same userId="A34BZM6S9L7QI4" but for a
+product with which this user has not interacted before, i.e.,
+prod_id = 1400501466, by using the optimized model (1 Mark)</strong></li>
+<li><strong>Compare the output with the output from the baseline model (2
+Marks)</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[36\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Use sim_user_user_optimized model to recommend for userId &quot;A3LDPF5FMB782Z&quot; and productId 1400501466
+sim_user_user_optimized.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = None   est = 4.29   {&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[36\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.292024046561495, details={&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[37\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Use sim_user_user_optimized model to recommend for userId &quot;A34BZM6S9L7QI4&quot; and productId &quot;1400501466&quot;
+sim_user_user_optimized.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[37\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.292024046561495, details={&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: The predicted rating for both users is around 4.3 based
+on this user-user-optimized similarity-based baseline model.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="identifying-similar-items-to-a-given-item-nearest-neighbors-identifying-similar-items-to-a-given-item-nearest-neighbors" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Identifying similar items to a given item (nearest neighbors)</strong><a href="#Identifying-similar-items-to-a-given-item-(nearest-neighbors)" class="anchor-link">¶</a> {#Identifying-similar-items-to-a-given-item-(nearest-neighbors)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>We can also find out <strong>similar items to a given item</strong> or its <strong>nearest
+neighbors</strong> based on this KNNBasic algorithm. Below, we are finding the
+5 most similar items to the first user in the list with internal id 0,
+based on the <code>msd</code> distance metric.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[38\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Here, 0 is the inner id of the above item
+sim_user_user_optimized.get_neighbors(0, 5)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[38\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>[6, 7, 17, 26, 32]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Implementing-the-recommendation-algorithm-based-on-optimized-KNNBasic-model" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Implementing the recommendation algorithm based on optimized KNNBasic model</strong><a href="#Implementing-the-recommendation-algorithm-based-on-optimized-KNNBasic-model" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we will be implementing a function where the input parameters are:</p>
+<ul>
+<li>data: A <strong>rating</strong> dataset</li>
+<li>user_id: A user id <strong>against which we want the recommendations</strong></li>
+<li>top_n: The <strong>number of products we want to recommend</strong></li>
+<li>algo: the algorithm we want to use <strong>for predicting the ratings</strong></li>
+<li>The output of the function is a <strong>set of top_n items</strong> recommended
+for the given user_id based on the given algorithm</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[39\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>def get_recommendations(data, user_id, top_n, algo):
+    
+    # Creating an empty list to store the recommended product ids
+    recommendations = []
+    
+    # Creating an user item interactions matrix 
+    user_item_interactions_matrix = data.pivot(index = &#39;user_id&#39;, columns = &#39;prod_id&#39;, values = &#39;rating&#39;)
+    
+    # Extracting those product ids which the user_id has not interacted yet
+    non_interacted_products = user_item_interactions_matrix.loc[user_id][user_item_interactions_matrix.loc[user_id].isnull()].index.tolist()
+    
+    # Looping through each of the product ids which user_id has not interacted yet
+    for item_id in non_interacted_products:
+        
+        # Predicting the ratings for those non interacted product ids by this user
+        est = algo.predict(user_id, item_id).est
+        
+        # Appending the predicted ratings
+        recommendations.append((item_id, est))
+
+    # Sorting the predicted ratings in descending order
+    recommendations.sort(key = lambda x: x[1], reverse = True)
+
+    return recommendations[:top_n] # Returing top n highest predicted rating products for this user</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="predicting-top-5-products-for-userid-a3ldpf5fmb782z-with-similarity-based-recommendation-system-predicting-top-5-products-for-userid--22a3ldpf5fmb782z22-with-similarity-based-recommendation-system" class="section level4 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h4><strong>Predicting top 5 products for userId = "A3LDPF5FMB782Z" with similarity based recommendation system</strong><a href="#Predicting-top-5-products-for-userId-=-%22A3LDPF5FMB782Z%22-with-similarity-based-recommendation-system" class="anchor-link">¶</a> {#Predicting-top-5-products-for-userId-=-%22A3LDPF5FMB782Z%22-with-similarity-based-recommendation-system}</h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[40\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Making top 5 recommendations for user_id &quot;A3LDPF5FMB782Z&quot; with a similarity-based recommendation engine
+recommendations = get_recommendations(df_final, &quot;A3LDPF5FMB782Z&quot;, 5, sim_user_user_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[41\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Building the dataframe for above recommendations with columns &quot;prod_id&quot; and &quot;predicted_ratings&quot;
+pd.DataFrame(recommendations, columns = [&#39;prod_id&#39;, &#39;predicted_ratings&#39;])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[41\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-afc698be-76b8-442a-bbf8-7624b57654d0">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">prod_id</th>
+<th align="left">predicted_ratings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="left">B000067RT6</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td align="left">B000BQ7GW8</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td align="left">B001TH7GUU</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">B005ES0YYA</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td align="left">B00834SJSK</td>
+<td align="left">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Correcting-the-Ratings-and-Ranking-the-above-products" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3><strong>Correcting the Ratings and Ranking the above products</strong><a href="#Correcting-the-Ratings-and-Ranking-the-above-products" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>While comparing the ratings of two products, it is not only the
+<strong>ratings</strong> that describe the <strong>likelihood of the user to that
+product</strong>. Along with the rating, the <strong>number of users who have seen
+that product</strong> also becomes important to consider. Due to this, we have
+calculated the <strong>"corrected_ratings"</strong> for each product. Commonly
+higher the <strong>"rating_count" of a product more it is liked by users</strong>.
+To interpret the above concept, a <strong>product rated 4 with rating_count 3
+is less liked in comparison to a product rated 3 with a rating count of
+50</strong>. It has been <strong>empirically found that the likelihood of the product
+is directly proportional to the inverse of the square root of the
+rating_count of the product</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[42\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>def ranking_products(recommendations, final_rating):
+  # Sort the products based on ratings count
+  ranked_products = final_rating.loc[[items[0] for items in recommendations]].sort_values(&#39;rating_count&#39;, ascending = False)[[&#39;rating_count&#39;]].reset_index()
+
+  # Merge with the recommended products to get predicted ratings
+  ranked_products = ranked_products.merge(pd.DataFrame(recommendations, columns = [&#39;prod_id&#39;, &#39;predicted_ratings&#39;]), on = &#39;prod_id&#39;, how = &#39;inner&#39;)
+
+  # Rank the products based on corrected ratings
+  ranked_products[&#39;corrected_ratings&#39;] = ranked_products[&#39;predicted_ratings&#39;] - 1 / np.sqrt(ranked_products[&#39;rating_count&#39;])
+
+  # Sort the products based on corrected ratings
+  ranked_products = ranked_products.sort_values(&#39;corrected_ratings&#39;, ascending = False)
+  
+  return ranked_products</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Note:</strong> In the <strong>above-corrected rating formula</strong>, we can add the
+<strong>quantity <code>1/np.sqrt(n)</code> instead of subtracting it to get more
+optimistic predictions</strong>. But here we are <strong>subtracting this quantity</strong>,
+as there are some products with ratings 5 and <strong>we can't have a rating
+more than 5 for a product</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[43\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Applying the ranking products function and sorting it based on corrected ratings
+ranking_products(recommendations, final_rating)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[43\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-6520768e-ab48-46ec-b839-fa2f9016e93c">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">prod_id</th>
+<th align="left">rating_count</th>
+<th align="left">predicted_ratings</th>
+<th align="left">corrected_ratings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="left">B00834SJSK</td>
+<td align="left">101</td>
+<td align="left">5</td>
+<td align="left">4.900496</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td align="left">B001TH7GUU</td>
+<td align="left">78</td>
+<td align="left">5</td>
+<td align="left">4.886772</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td align="left">B000BQ7GW8</td>
+<td align="left">54</td>
+<td align="left">5</td>
+<td align="left">4.863917</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">B000067RT6</td>
+<td align="left">41</td>
+<td align="left">5</td>
+<td align="left">4.843826</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td align="left">B005ES0YYA</td>
+<td align="left">26</td>
+<td align="left">5</td>
+<td align="left">4.803884</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Item-Item-Similarity-based-collaborative-filtering-recommendation-systems" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Item-Item Similarity-based collaborative filtering recommendation systems<a href="#Item-Item-Similarity-based-collaborative-filtering-recommendation-systems" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Above we have seen <strong>similarity-based collaborative filtering</strong>
+where similarity is calculated <strong>between users</strong>. Now let us look
+into similarity-based collaborative filtering where similarity is
+seen <strong>between items</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[44\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Declaring the similarity options
+sim_options = {&#39;name&#39;: &#39;cosine&#39;,
+               &#39;user_based&#39;: False}
+
+# KNN algorithm is used to find desired similar items
+sim_item_item = KNNBasic(sim_options = sim_options, random_state = 1, verbose = False)
+
+# Train the algorithm on the trainset, and predict ratings for the test set
+sim_item_item.fit(trainset)
+
+# Let us compute precision@k, recall@k, and f_1 score with k = 10
+precision_recall_at_k(sim_item_item)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 0.9950
+Precision:  0.838
+Recall:  0.845
+F_1 score:  0.841</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>The baseline model is giving a good F_1 score of ~ 84%. We will try
+to <strong>improve this later by using GridSearchCV</strong> by tuning different
+hyperparameters of this algorithm.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Let's now <strong>predict a rating for a user with <code>userId = A3LDPF5FMB782Z</code>
+and <code>prod_Id = 1400501466</code></strong> as shown below. Here the user has already
+interacted or watched the product with productId "1400501466".</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[45\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Predicting rating for a sample user with an interacted product
+sim_item_item.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, r_ui = 5, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.27   {&#39;actual_k&#39;: 22, &#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[45\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=5, est=4.2727272727272725, details={&#39;actual_k&#39;: 22, &#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>The above output shows that <strong>the actual rating for this user-item
+pair is 5 and the predicted rating is 4.27</strong> by this
+<strong>item-item-similarity-based baseline model</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we are <strong>predicting rating for the same <code>userId = A34BZM6S9L7QI4</code>
+but for a product with which this user has not interacted yet, i.e.,
+<code>prod_id = 1400501466</code></strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[46\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Predicting rating for a sample user with a non interacted product
+sim_item_item.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[46\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.292024046561495, details={&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>As we can see the <strong>predicted rating for this user-item pair is good
+(around 4.3)</strong> based on this <strong>item-item similarity-based baseline
+model</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters" class="section level4 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h4>Improving similarity-based recommendation system by tuning its hyperparameters<a href="#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters" class="anchor-link">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we will be <strong>tuning hyperparameters for the <code>KNNBasic</code>
+algorithms</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-hyperparameter-tuning-the-item-item-similarity-based-model.-6-marks-question-hyperparameter-tuning-the-item-item-similarity-based-model.-6-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question: Hyperparameter tuning the item-item similarity-based model. (6 marks)<a href="#Question:-Hyperparameter-tuning-the-item-item-similarity-based-model.-(6-marks)" class="anchor-link">¶</a> {#Question:-Hyperparameter-tuning-the-item-item-similarity-based-model.-(6-marks)}</h3>
+<ul>
+<li>Use the following values for the param_grid and tune the model. (3
+Marks)
+<ul>
+<li>'k': <span class="math display">\[10, 20, 30\]</span></li>
+<li>'min_k': <span class="math display">\[3, 6, 9\]</span></li>
+<li>'sim_options': {'name': <span class="math display">\[\&#39;msd\&#39;, \&#39;cosine\&#39;\]</span></li>
+<li>'user_based': <span class="math display">\[False\]</span></li>
+</ul></li>
+<li>Use GridSearchCV() to tune the model using the 'rmse' measure (2
+Marks)</li>
+<li>Print the best score and best parameters (1 Mark)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[47\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Setting up parameter grid to tune the hyperparameters
+param_grid = {&#39;k&#39;: [10,20,30], &#39;min_k&#39;: [3,6,9], &#39;sim_options&#39;:{&#39;name&#39;:[&#39;msd&#39;, &#39;cosine&#39;]}, &#39;user_based&#39;: [False]}
+
+# Performing 3-fold cross validation to tune the hyperparameters
+gs = GridSearchCV(KNNBasic, param_grid, measures= [&#39;rmse&#39;], cv= 3, n_jobs= -1)
+
+# Fitting the data
+gs.fit(data)
+
+# Find the best RMSE score
+print(gs.best_score[&#39;rmse&#39;])
+
+# Find the combination of parameters that gave the best RMSE score
+print(gs.best_params[&#39;rmse&#39;])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>0.9717799272189701
+{&#39;k&#39;: 30, &#39;min_k&#39;: 6, &#39;sim_options&#39;: {&#39;name&#39;: &#39;cosine&#39;, &#39;user_based&#39;: True}, &#39;user_based&#39;: False}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Once the <strong>grid search</strong> is complete, we can get the <strong>optimal values
+for each of those hyperparameters as shown above.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Now let's build the <strong>final model</strong> by using <strong>tuned values of the
+hyperparameters</strong> which we received by using grid search
+cross-validation.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-use-the-best-parameters-from-gridsearchcv-to-build-the-optimized-item-item-similarity-based-model.-compare-the-performance-of-the-optimized-model-with-the-baseline-model.-5-marks-question-use-the-best-parameters-from-gridsearchcv-to-build-the-optimized-item-item-similarity-based-model.-compare-the-performance-of-the-optimized-model-with-the-baseline-model.-5-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question: Use the best parameters from GridSearchCV to build the optimized item-item similarity-based model. Compare the performance of the optimized model with the baseline model. (5 Marks)<a href="#Question:-Use-the-best-parameters-from-GridSearchCV-to-build-the-optimized-item-item-similarity-based-model.-Compare-the-performance-of-the-optimized-model-with-the-baseline-model.-(5-Marks)" class="anchor-link">¶</a> {#Question:-Use-the-best-parameters-from-GridSearchCV-to-build-the-optimized-item-item-similarity-based-model.-Compare-the-performance-of-the-optimized-model-with-the-baseline-model.-(5-Marks)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[48\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Using the optimal similarity measure for item-item based collaborative filtering
+sim_options = {&#39;name&#39;: &#39;cosine&#39;, &#39;user_based&#39;: False}
+
+# Creating an instance of KNNBasic with optimal hyperparameter values
+sim_item_item_optimized = KNNBasic(sim_options = sim_options ,k= 30 , min_k= 6 , random_state = 1, verbose = False)
+
+# Training the algorithm on the trainset
+sim_item_item_optimized.fit(trainset)
+
+# Let us compute precision@k and recall@k, f1_score and RMSE
+precision_recall_at_k(sim_user_user_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 0.9526
+Precision:  0.847
+Recall:  0.894
+F_1 score:  0.87</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: After changing the hyperparameters, the score of F1 is
+better than the original model. Furthermore, the score of the RMSE has
+decreased therefore the model has imporved after the tuning.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Let's us now predict <strong>rating for an user with
+<code>userId = A3LDPF5FMB782Z</code> and for <code>prod_id = 1400501466</code></strong> with the
+<strong>optimized model</strong> as shown below:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[49\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>sim_item_item_optimized.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, r_ui = 5, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.27   {&#39;actual_k&#39;: 22, &#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[49\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=5, est=4.2727272727272725, details={&#39;actual_k&#39;: 22, &#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we are <strong>predicting rating</strong> for the same
+<strong><code>userId = A34BZM6S9L7QI4</code></strong> but for a product with which this user
+<strong>has not interacted before</strong>, i.e., <code>prod_id == 1400501466</code>, by using
+the optimized model as shown below:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[50\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>sim_item_item_optimized.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[50\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.292024046561495, details={&#39;was_impossible&#39;: True, &#39;reason&#39;: &#39;Not enough neighbors.&#39;})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>For an unknown product the model is predicting a rating of <strong>4.29</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="identifying-similar-items-to-a-given-item-nearest-neighbors-identifying-similar-items-to-a-given-item-nearest-neighbors-1" class="section level4 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h4>Identifying similar items to a given item (nearest neighbors)<a href="#Identifying-similar-items-to-a-given-item-(nearest-neighbors)" class="anchor-link">¶</a> {#Identifying-similar-items-to-a-given-item-(nearest-neighbors)}</h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>We can also find out <strong>similar items</strong> to a given item or its nearest
+neighbors based on this <strong>KNNBasic algorithm</strong>. Below we are finding the
+5 most similar items to the item with internal id 0 based on the <code>msd</code>
+distance metric.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[51\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code>sim_item_item_optimized.get_neighbors(0, k = 5)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[51\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>[3, 11, 29, 40, 48]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="predicted-top-5-products-for-userid-a1a5kuiiihff4u-with-similarity-based-recommendation-system.-predicted-top-5-products-for-userid--22a1a5kuiiihff4u22-with-similarity-based-recommendation-system." class="section level4 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h4>Predicted top 5 products for userId = "A1A5KUIIIHFF4U" with similarity based recommendation system.<a href="#Predicted-top-5-products-for-userId-=-%22A1A5KUIIIHFF4U%22-with-similarity-based-recommendation-system." class="anchor-link">¶</a> {#Predicted-top-5-products-for-userId-=-%22A1A5KUIIIHFF4U%22-with-similarity-based-recommendation-system.}</h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[52\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Making top 5 recommendations for user_id A1A5KUIIIHFF4U with similarity-based recommendation engine.
+recommendations = get_recommendations(df_final, &quot;A1A5KUIIIHFF4U&quot;, 5, sim_item_item_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[53\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Building the dataframe for above recommendations with columns &quot;prod_id&quot; and &quot;predicted_ratings&quot;
+pd.DataFrame(recommendations, columns = [&#39;prod_id&#39;, &#39;predicted_ratings&#39;])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[53\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-36faab5a-b996-44d9-83f2-9eca5ec0be45">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">prod_id</th>
+<th align="left">predicted_ratings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="left">1400532655</td>
+<td align="left">4.292024</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td align="left">1400599997</td>
+<td align="left">4.292024</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td align="left">9983891212</td>
+<td align="left">4.292024</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">B00000DM9W</td>
+<td align="left">4.292024</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td align="left">B00000J1V5</td>
+<td align="left">4.292024</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[54\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Applying the ranking products function and sorting it based on the corrected ratings 
+ranking_products(recommendations, final_rating)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[54\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-b813c461-9b68-459c-bfe6-47587f531962">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">prod_id</th>
+<th align="left">rating_count</th>
+<th align="left">predicted_ratings</th>
+<th align="left">corrected_ratings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="left">9983891212</td>
+<td align="left">8</td>
+<td align="left">4.292024</td>
+<td align="left">3.938471</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td align="left">B00000J1V5</td>
+<td align="left">7</td>
+<td align="left">4.292024</td>
+<td align="left">3.914060</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td align="left">1400532655</td>
+<td align="left">6</td>
+<td align="left">4.292024</td>
+<td align="left">3.883776</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">1400599997</td>
+<td align="left">5</td>
+<td align="left">4.292024</td>
+<td align="left">3.844810</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td align="left">B00000DM9W</td>
+<td align="left">5</td>
+<td align="left">4.292024</td>
+<td align="left">3.844810</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Now as we have seen <strong>similarity-based collaborative filtering
+algorithms</strong>, let us now get into <strong>model-based collaborative
+filtering algorithms</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Model-Based-Collaborative-Filtering---Matrix-Factorization" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Model-Based Collaborative Filtering - Matrix Factorization<a href="#Model-Based-Collaborative-Filtering---Matrix-Factorization" class="anchor-link">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Model-based Collaborative Filtering is a <strong>personalized recommendation
+system</strong>, the recommendations are based on the past behavior of the user
+and it is not dependent on any additional information. We use <strong>latent
+features</strong> to find recommendations for each user.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="singular-value-decomposition-svd-singular-value-decomposition-svd" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Singular Value Decomposition (SVD)<a href="#Singular-Value-Decomposition-(SVD)" class="anchor-link">¶</a> {#Singular-Value-Decomposition-(SVD)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>SVD is used to <strong>compute the latent features</strong> from the <strong>user-item
+matrix</strong>. But SVD does not work when we <strong>miss values</strong> in the
+<strong>user-item matrix</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-build-the-matrix-factorization-recommendation-system-using-random_state-1-and-provide-your-observations-on-the-performance-of-the-model.-4-marks-question-build-the-matrix-factorization-recommendation-system-using-random_state--1-and-provide-your-observations-on-the-performance-of-the-model.-4-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question: Build the matrix factorization recommendation system (using random_state = 1) and provide your observations on the performance of the model. (4 Marks)<a href="#Question:-Build-the-matrix-factorization-recommendation-system-(using-random_state-=-1)-and-provide-your-observations-on-the-performance-of-the-model.-(4-Marks)" class="anchor-link">¶</a> {#Question:-Build-the-matrix-factorization-recommendation-system-(using-random_state-=-1)-and-provide-your-observations-on-the-performance-of-the-model.-(4-Marks)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[55\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Using SVD matrix factorization
+svd = SVD(random_state = 1)
+
+# Training the algorithm on the trainset
+svd.fit(trainset)
+
+# Use the function precision_recall_at_k to compute precision@k, recall@k, F1-Score, and RMSE
+precision_recall_at_k(svd)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 0.8882
+Precision:  0.853
+Recall:  0.88
+F_1 score:  0.866</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: The F_1 score for the matrix factorization
+recommendation system is lower than with the user_user_similarity
+recommendation system.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<ul>
+<li>Let's now predict the rating for a user with
+<code>userId = "A3LDPF5FMB782Z"</code> and <code>prod_id = "1400501466</code> as shown
+below.</li>
+<li>Here, the user has already rated the product.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[56\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Making prediction
+svd.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, r_ui = 5, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.08   {&#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[56\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=5, est=4.081406749810685, details={&#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>As we can observe, <strong>the actual rating</strong> for this user-item pair is 5,
+and the predicted rating is <strong>4.08</strong> by this matrix
+<strong>factorization-based baseline model</strong>. It seems like we have
+under-estimated the rating. We will try to fix this later by <strong>tuning
+the hyperparameters</strong> of the model using GridSearchCV.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we are predicting rating for the same <code>userId = A34BZM6S9L7QI4</code>
+but for a product with which this user has not interacted before, i.e.,
+<code>productId = 1400501466</code>, as shown below:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[57\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Making prediction
+svd.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.40   {&#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[57\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.40037568046934, details={&#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>We can see that the <strong>estimated rating</strong> for this <strong>user-item pair</strong> is
+4.40 based on this <strong>matrix factorization based baseline model</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Improving-matrix-factorization-based-recommendation-system-by-tuning-its-hyperparameters" class="section level4 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h4>Improving matrix factorization based recommendation system by tuning its hyperparameters<a href="#Improving-matrix-factorization-based-recommendation-system-by-tuning-its-hyperparameters" class="anchor-link">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>In SVD, rating is predicted as:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>$$\hat{r}_{u i}=\mu+b_{u}+b_{i}+q_{i}^{T} p_{u}$$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>If user $u$ is unknown, then the bias $b_{u}$ and the factors
+$p_{u}$ are assumed to be zero. The same applies for item $i$ with
+$b_{i}$ and $q_{i}$.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>To estimate all the unknown, we minimize the following regularized
+squared error:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>$$\sum_{r_{u i} \in R_{\text {train }}}\left(r_{u
+i}-\hat{r}_{u
+i}\right)^{2}+\lambda\left(b_{i}^{2}+b_{u}^{2}+\left\|q_{i}\right\|^{2}+\left\|p_{u}\right\|^{2}\right)$$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>The minimization is performed by a very straightforward <strong>stochastic
+gradient descent</strong>:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>$$\begin{aligned} b_{u} &amp; \leftarrow b_{u}+\gamma\left(e_{u
+i}-\lambda b_{u}\right) \\ b_{i} &amp; \leftarrow
+b_{i}+\gamma\left(e_{u i}-\lambda b_{i}\right) \\ p_{u} &amp;
+\leftarrow p_{u}+\gamma\left(e_{u i} \cdot q_{i}-\lambda
+p_{u}\right) \\ q_{i} &amp; \leftarrow q_{i}+\gamma\left(e_{u i}
+\cdot p_{u}-\lambda q_{i}\right) \end{aligned}$$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>There are many hyperparameters to tune in this algorithm, you can find a
+full list of hyperparameters
+<a href="https://surprise.readthedocs.io/en/stable/matrix_factorization.html#surprise.prediction_algorithms.matrix_factorization.SVD">here</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Below we will be tuning only three hyperparameters:</p>
+<ul>
+<li><strong>n_epochs</strong>: The number of iterations of the SGD algorithm.</li>
+<li><strong>lr_all</strong>: The learning rate for all parameters.</li>
+<li><strong>reg_all</strong>: The regularization term for all parameters.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[58\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Set the parameter space to tune
+param_grid = {&#39;n_epochs&#39;: [10, 20, 30], &#39;lr_all&#39;: [0.001, 0.005, 0.01],
+              &#39;reg_all&#39;: [0.2, 0.4, 0.6]}
+
+# Performing 3-fold gridsearch cross-validation
+gs_ = GridSearchCV(SVD, param_grid, measures = [&#39;rmse&#39;], cv = 3, n_jobs = -1)
+
+# Fitting data
+gs_.fit(data)
+
+# Best RMSE score
+print(gs_.best_score[&#39;rmse&#39;])
+
+# Combination of parameters that gave the best RMSE score
+print(gs_.best_params[&#39;rmse&#39;])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>0.8994316378239794
+{&#39;n_epochs&#39;: 20, &#39;lr_all&#39;: 0.01, &#39;reg_all&#39;: 0.4}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Once the <strong>grid search</strong> is complete, we can get the <strong>optimal values</strong>
+for each of those hyperparameters, as shown above.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Now, we will <strong>the build final model</strong> by using <strong>tuned values</strong> of the
+hyperparameters, which we received using grid search cross-validation
+above.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="question-fit-the-svd-model-using-the-hyperparameters-from-gridsearchcv-use-random_state-1-and-compare-the-output-with-the-baseline-model.-5-marks-question-fit-the-svd-model-using-the-hyperparameters-from-gridsearchcv-use-random_state--1-and-compare-the-output-with-the-baseline-model.-5-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question: Fit the SVD model using the hyperparameters from GridSearchCV (use random_state = 1) and compare the output with the baseline model. (5 Marks)<a href="#Question:-Fit-the-SVD-model-using-the-hyperparameters-from-GridSearchCV-(use-random_state-=-1)-and-compare-the-output-with-the-baseline-model.-(5-Marks)" class="anchor-link">¶</a> {#Question:-Fit-the-SVD-model-using-the-hyperparameters-from-GridSearchCV-(use-random_state-=-1)-and-compare-the-output-with-the-baseline-model.-(5-Marks)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[59\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Build the optimized SVD model using optimal hyperparameter search
+svd_optimized = SVD(n_epochs= 20, lr_all= 0.01, reg_all= 0.4, random_state= 1)
+
+# Train the algorithm on the trainset
+svd_optimized = svd_optimized.fit(trainset)
+
+# Use the function precision_recall_at_k to compute precision@k, recall@k, F1-Score, and RMSE
+precision_recall_at_k(svd_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>RMSE: 0.8822
+Precision:  0.854
+Recall:  0.884
+F_1 score:  0.869</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: Although we adjusted the hyperparameters the value of
+F_1 has decreased rendering the second model less optimal.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Let's now predict a rating for a user with <code>userId = A3LDPF5FMB782Z</code>
+and <code>productId = 1400501466</code> with the optimized model as shown below.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question:<a href="#Question:" class="anchor-link">¶</a></h3>
+<ul>
+<li><strong>Using the optimized svd model, predict rating for the user with
+<code>userId</code> = "A3LDPF5FMB782Z", and <code>prod_id</code> = 1400501466. (1
+Mark)</strong></li>
+<li><strong>Predict rating for the same userId = "A34BZM6S9L7QI4" but for a
+product with which this user has not interacted before, i.e.,
+prod_id = 1400501466, by using the optimized model. (1 Mark)</strong></li>
+<li><strong>Compare the output with the output from the baseline model. (2
+Marks)</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[60\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Use svd_algo_optimized model to recommend for userId &quot;A3LDPF5FMB782Z&quot; and productId &quot;1400501466&quot;
+svd_optimized.predict(&quot;A3LDPF5FMB782Z&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A3LDPF5FMB782Z item: 1400501466 r_ui = None   est = 4.04   {&#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[60\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A3LDPF5FMB782Z&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.0394144191097014, details={&#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[61\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Use svd_algo_optimized model to recommend for userId &quot;A34BZM6S9L7QI4&quot; and productId &quot;1400501466&quot;
+svd_optimized.predict(&quot;A34BZM6S9L7QI4&quot;, &quot;1400501466&quot;, verbose = True)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+
+</div>
+<div class="jp-RenderedText jp-OutputArea-output" mime-type="text/plain">
+<pre><code>user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.17   {&#39;was_impossible&#39;: False}</code></pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[61\]</span>:</p>
+</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/plain">
+<pre><code>Prediction(uid=&#39;A34BZM6S9L7QI4&#39;, iid=&#39;1400501466&#39;, r_ui=None, est=4.172649353607237, details={&#39;was_impossible&#39;: False})</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p><strong>Observations: We can see that the estimated rating for this user-item
+pair is 4.17 based on this matrix factorization based baseline model
+with the hyperparamters changed.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="Question:" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Question:<a href="#Question:" class="anchor-link">¶</a></h3>
+<ul>
+<li><strong>Get 5 recommendations for the user with user_id =
+'A2XIOXRRYX0KZY' using the svd_optimized model. Hint: Use
+get_recommendations() function (2 Marks)</strong></li>
+<li><strong>Rank the recommendations on the basis of the correct ratings.
+Hint: Use ranking_products() function (2 Marks)</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[62\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Get top 5 recommendations for user_id A2XIOXRRYX0KZY using &quot;svd_optimized&quot; algorithm
+svd_recommendations = get_recommendations(df_final, &#39;A2XIOXRRYX0KZY&#39;, 5, svd_optimized)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+<p>In <span class="math display">\[63\]</span>:</p>
+</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3">
+<pre><code># Ranking products based on the above recommendations
+ranking_products(svd_recommendations, final_rating)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">
+<p>Out<span class="math display">\[63\]</span>:</p>
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" mime-type="text/html">
+<div id="df-e058adf2-3820-4797-8386-4ec78f1d8a67">
+<div class="colab-df-container">
+<div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">prod_id</th>
+<th align="left">rating_count</th>
+<th align="left">predicted_ratings</th>
+<th align="left">corrected_ratings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="left">B0033PRWSW</td>
+<td align="left">15</td>
+<td align="left">4.788765</td>
+<td align="left">4.530566</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td align="left">B0010Y414Q</td>
+<td align="left">11</td>
+<td align="left">4.819066</td>
+<td align="left">4.517555</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td align="left">B000JV9LUK</td>
+<td align="left">10</td>
+<td align="left">4.817486</td>
+<td align="left">4.501259</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">B00AR95ESC</td>
+<td align="left">9</td>
+<td align="left">4.813332</td>
+<td align="left">4.479999</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td align="left">B00065AO0K</td>
+<td align="left">5</td>
+<td align="left">4.784775</td>
+<td align="left">4.337561</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div id="conclusion-5-marks-conclusion-5-marks" class="section level3 jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<h3>Conclusion (5 Marks)<a href="#Conclusion-(5-Marks)" class="anchor-link">¶</a> {#Conclusion-(5-Marks)}</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">
+
+</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" mime-type="text/markdown">
+<p>Throughout this notebook, we built a recommendation system using
+different techniques.</p>
+<ul>
+<li>First, we used the Rank-Based technique to find the highest-ranked
+products.</li>
+<li>Secondly, we used the user-user similarity-based collaborative
+filtering, which consists of predicting items that a user might like
+based on the ratings given to an item provided by other users. These
+other users are similar to the one we are recommending the product
+to.</li>
+<li>Thirdly, we used the item-item similarity-based collaborative
+filtering, which consists of predicting items that a user might like
+based on the rating of similar products rated by that same user.</li>
+<li>Finally, we used the Model-based (matrix factorisation)
+collaborative filtering.</li>
+</ul>
+<p>In order to be sure that we are using the best performing models, we
+grid searched cross-validation to find the optimal hyper parameters for
+the data. We have various evaluation systems. Such as the precision@k
+and recall@k which gives us the F_1 score. We can then choose the
+better performing model according to the RMSE and F_1 scores.</p>
+<p>These methods help us recommend items to users in the most optimal and
+correct way possible.</p>
+</div>
+</div>
+</div>
+</div>

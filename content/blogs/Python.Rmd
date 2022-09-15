@@ -8,11 +8,5118 @@ draft: false
 image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
-slug: python
+slug: pythonn
 title: Python
 ---
 
-**Python** entered my life about 1 year ago and has not left my side since. I was first initiated to **python** when I was confronted with an assignment I had to hand in. I developed a *crypto-trading bot*. It was as hard as it seems, especially with no past experience in coding. Eventually *python* became my friend. I coded various algorithms during my internship at [S&P Global](https://www.spglobal.com/en/). One algorithm calculated the under-performing stocks in an ETF. *Python* followed me when I followed an intense program at [MIT](https://professional.mit.edu/course-catalog/applied-data-science-program) where I discovered it's true power. 
+**Python** entered my life about 1 year ago and has not left my side since. I was first initiated to **python** when I was confronted with an assignment I had to hand in. I developed a *crypto-trading bot*. It was as hard as it seems, especially with no past experience in coding. Eventually **python** became my friend. I coded various algorithms during my internship at [S&P Global](https://www.spglobal.com/en/). One algorithm calculated the under-performing stocks in an ETF. *Python* followed me when I followed an intense program at [MIT](https://professional.mit.edu/course-catalog/applied-data-science-program) where I discovered it's true power. 
 
-- In this section I will focus on my final project I handed in. 
+In this section I will focus on my final project I handed in. **(I strongly recommend a large cup of coffee if you want to go on...)**
+
+---
+title: Amazon_Recommendation_Systems_Learner_Notebook_final
+viewport: width=device-width, initial-scale=1.0
+---
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Project: Amazon Product Recommendation System**[¶](#Project:-Amazon-Product-Recommendation-System){.anchor-link} {#Project:-Amazon-Product-Recommendation-System}
+
+
+Welcome to the project on Recommendation Systems. We will work with the
+Amazon product reviews dataset for this project. The dataset contains
+ratings of different electronic products. It does not include
+information about the products or reviews to avoid bias while building
+the model.
+
+------------------------------------------------------------------------
+
+## **Context**[¶](#Context){.anchor-link} {#Context}
+
+------------------------------------------------------------------------
+
+E-commerce websites like Amazon, Flipkart uses different recommendation
+models to provide personalized suggestions to different users. For
+example, one of the recommendation models that Amazon uses is
+item-to-item collaborative filtering, which scales to massive data sets
+and produces high-quality recommendations in real-time.
+
+------------------------------------------------------------------------
+
+## **Objective**[¶](#Objective){.anchor-link} {#Objective}
+
+------------------------------------------------------------------------
+
+Build a recommendation system to recommend products to customers based
+on their previous ratings for other products.
+
+------------------------------------------------------------------------
+
+## **Dataset**[¶](#Dataset){.anchor-link} {#Dataset}
+
+------------------------------------------------------------------------
+
+The Amazon dataset contains the following attributes:
+
+-   **userId:** Every user identified with a unique id
+-   **productId:** Every product identified with a unique id
+-   **Rating:** The rating of the corresponding product by the
+    corresponding user
+-   **timestamp:** Time of the rating. We **will not use this column**
+    to solve the current problem
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Sometimes, the installation of the surprise library, which is used to
+build recommendation systems, faces issues in Jupyter. To avoid any
+issues, it is advised to use **Google Colab** for this project.
+
+Let\'s start by mounting the Google drive on Colab.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[4\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    from google.colab import drive
+    drive.mount('/content/drive')
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Installing surprise library**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[5\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    !pip install surprise
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+    Requirement already satisfied: surprise in /usr/local/lib/python3.7/dist-packages (0.1)
+    Requirement already satisfied: scikit-surprise in /usr/local/lib/python3.7/dist-packages (from surprise) (1.1.1)
+    Requirement already satisfied: numpy>=1.11.2 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise->surprise) (1.21.6)
+    Requirement already satisfied: scipy>=1.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise->surprise) (1.7.3)
+    Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise->surprise) (1.15.0)
+    Requirement already satisfied: joblib>=0.11 in /usr/local/lib/python3.7/dist-packages (from scikit-surprise->surprise) (1.1.0)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Importing the necessary libraries and overview of the dataset**[¶](#Importing-the-necessary-libraries-and-overview-of-the-dataset){.anchor-link} {#Importing-the-necessary-libraries-and-overview-of-the-dataset}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[6\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    import warnings                                 # Used to ignore the warning given as output of the code
+    warnings.filterwarnings('ignore')
+
+    import numpy as np                              # Basic libraries of python for numeric and dataframe computations
+    import pandas as pd
+
+    import matplotlib.pyplot as plt                 # Basic library for data visualization
+    import seaborn as sns                           # Slightly advanced library for data visualization
+
+    from collections import defaultdict             # A dictionary output that does not raise a key error
+
+    from sklearn.metrics import mean_squared_error  # A performance metrics in sklearn
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Loading the data**[¶](#Loading-the-data){.anchor-link} {#Loading-the-data}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[7\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Import the dataset
+    df = pd.read_csv('/content/drive/MyDrive/ratings_Electronics.csv', header = None) # There are no headers in the data file
+
+    df.columns = ['user_id', 'prod_id', 'rating', 'timestamp'] # Adding column names
+
+    df = df.drop('timestamp', axis = 1) # Dropping timestamp
+
+    df_copy = df.copy(deep = True) # Copying the data to another DataFrame
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**As this dataset is very large and has 7,824,482 observations, it is
+not computationally possible to build a model using this. Moreover, many
+users have only rated a few products and also some products are rated by
+very few users. Hence, we can reduce the dataset by considering certain
+logical assumptions.**
+
+Here, we will be taking users who have given at least 50 ratings, and
+the products that have at least 5 ratings, as when we shop online we
+prefer to have some number of ratings of a product.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[8\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Get the column containing the users
+    users = df.user_id
+
+    # Create a dictionary from users to their number of ratings
+    ratings_count = dict()
+
+    for user in users:
+
+        # If we already have the user, just add 1 to their rating count
+        if user in ratings_count:        
+            ratings_count[user] += 1
+      
+        # Otherwise, set their rating count to 1
+        else:
+            ratings_count[user] = 1
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[9\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # We want our users to have at least 50 ratings to be considered
+    RATINGS_CUTOFF = 50
+
+    remove_users = []
+
+    for user, num_ratings in ratings_count.items():
+        if num_ratings < RATINGS_CUTOFF:
+            remove_users.append(user)
+
+    df = df.loc[ ~ df.user_id.isin(remove_users)]
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[10\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Get the column containing the products
+    prods = df.prod_id
+
+    # Create a dictionary from products to their number of ratings
+    ratings_count = dict()
+
+    for prod in prods:
+        
+        # If we already have the product, just add 1 to its rating count
+        if prod in ratings_count:
+            ratings_count[prod] += 1
+        
+        # Otherwise, set their rating count to 1
+        else:
+            ratings_count[prod] = 1    
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[11\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # We want our item to have at least 5 ratings to be considered
+    RATINGS_CUTOFF = 5
+
+    remove_users = []
+
+    for user, num_ratings in ratings_count.items():
+        if num_ratings < RATINGS_CUTOFF:
+            remove_users.append(user)
+
+    df_final = df.loc[~ df.prod_id.isin(remove_users)]
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[12\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Print a few rows of the imported dataset
+    df_final.head()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[12\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-512354f3-deaa-46be-8c64-dfbd365671d4}
+::: {.colab-df-container}
+<div>
+
+         user_id          prod_id      rating
+  ------ ---------------- ------------ --------
+  1310   A3LDPF5FMB782Z   1400501466   5.0
+  1322   A1A5KUIIIHFF4U   1400501466   1.0
+  1335   A2XIOXRRYX0KZY   1400501466   3.0
+  1451   AW3LX47IHPFRL    1400501466   5.0
+  1456   A1E3OB6QMBKRYZ   1400501466   1.0
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Exploratory Data Analysis (6 marks)**[¶](#Exploratory-Data-Analysis-(6-marks)){.anchor-link} {#Exploratory-Data-Analysis-(6-marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Shape of the data**[¶](#Shape-of-the-data){.anchor-link} {#Shape-of-the-data}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question: Check the number of rows and columns and provide observations.**[¶](#Question:-Check-the-number-of-rows-and-columns-and-provide-observations.){.anchor-link} {#Question:-Check-the-number-of-rows-and-columns-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[13\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Check the number of rows and columns and provide observations
+    rows, columns = df_final.shape
+    print("No of rows: ", rows) 
+    print("No of columns: ", columns) 
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    No of rows:  65290
+    No of columns:  3
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: There are 65,290 users who have rated above 50 items
+that each have at least 5 ratings.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Data types**[¶](#Data-types){.anchor-link} {#Data-types}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question: Check data types and provide observations.**[¶](#Question:-Check-data-types-and-provide-observations.){.anchor-link} {#Question:-Check-data-types-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[14\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Check Data types and provide observations
+    df_final.info()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    <class 'pandas.core.frame.DataFrame'>
+    Int64Index: 65290 entries, 1310 to 7824427
+    Data columns (total 3 columns):
+     #   Column   Non-Null Count  Dtype  
+    ---  ------   --------------  -----  
+     0   user_id  65290 non-null  object 
+     1   prod_id  65290 non-null  object 
+     2   rating   65290 non-null  float64
+    dtypes: float64(1), object(2)
+    memory usage: 2.0+ MB
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: There are 65,290 observations and 3 columns of data. The
+rating column is of numeric data type. The other columns are of object
+data types.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Checking for missing values**[¶](#Checking-for-missing-values){.anchor-link} {#Checking-for-missing-values}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Questions: Check for missing value in the data and provide observations.**[¶](#Questions:-Check-for-missing-value-in-the-data-and-provide-observations.){.anchor-link} {#Questions:-Check-for-missing-value-in-the-data-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[15\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Check for missing values present and provide observations
+    df_final.groupby(['user_id', 'prod_id']).count()['rating'].sum()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[15\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    65290
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: There are 65,290 observations. Therefore, there are the
+same amount of observtions than users so there is no missing data and
+there is only one interaction between a pair of a user and an item.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Summary Statistics**[¶](#Summary-Statistics){.anchor-link} {#Summary-Statistics}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question: Summary statistics of \'rating\' variable and provide observations.**[¶](#Question:-Summary-statistics-of-'rating'-variable-and-provide-observations.){.anchor-link} {#Question:-Summary-statistics-of-'rating'-variable-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[16\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Summary statistics of 'rating' variable and provide observations
+    df_final['rating'].describe()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[16\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    count    65290.000000
+    mean         4.294808
+    std          0.988915
+    min          1.000000
+    25%          4.000000
+    50%          5.000000
+    75%          5.000000
+    max          5.000000
+    Name: rating, dtype: float64
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: There are 65,290 ratings provided by users. The average
+of the ratings is 4.29 which seems very high. This is probably because
+people who buy products and are unhappy with them do not rate the
+product. The minimum rating is 1 and the maximum rating is 5.
+Furthermore, the median is 5 wich means there are a lot of high
+ratings.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Checking the rating distribution**[¶](#Checking-the-rating-distribution){.anchor-link} {#Checking-the-rating-distribution}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question: Create the bar plot and provide observations.**[¶](#Question:-Create-the-bar-plot-and-provide-observations.){.anchor-link} {#Question:-Create-the-bar-plot-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[17\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Create the bar plot and provide observations
+    plt.figure(figsize = (12, 6))
+
+    df_final['rating'].value_counts(1).plot(kind = 'bar')
+
+    plt.xlabel('Rating')
+    plt.ylabel('Count')
+    plt.show()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedImage .jp-OutputArea-output}
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/80e898c80a2680a2af1d1146f68fe62cf92f6ea8.png){.jp-needs-light-background}
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: The data is positively skewed and regroups a huge
+majority of 4 and 5 ratings.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Checking the number of unique users and items in the dataset**[¶](#Checking-the-number-of-unique-users-and-items-in-the-dataset){.anchor-link} {#Checking-the-number-of-unique-users-and-items-in-the-dataset}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[18\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Number of unique user id and product id in the data
+    print('Number of unique USERS in Raw data = ', df['user_id'].nunique())
+    print('Number of unique ITEMS in Raw data = ', df['prod_id'].nunique())
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    Number of unique USERS in Raw data =  1540
+    Number of unique ITEMS in Raw data =  48190
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   There are **1540 unique users and 5689 products** in the dataset.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Users with the most number of ratings**[¶](#Users-with-the-most-number-of-ratings){.anchor-link} {#Users-with-the-most-number-of-ratings}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[19\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Top 10 users based on the number of ratings
+    most_rated = df_final.groupby('user_id').size().sort_values(ascending = False)[:10]
+    most_rated
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[19\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    user_id
+    ADLVFFE4VBT8      295
+    A3OXHLG6DIBRW8    230
+    A1ODOGXEYECQQ8    217
+    A36K2N527TXXJN    212
+    A25C2M3QF9G7OQ    203
+    A680RUE1FDO8B     196
+    A22CW0ZHY3NJH8    193
+    A1UQBFCERIP7VJ    193
+    AWPODHOB4GFWL     184
+    A3LGT6UZL99IW1    179
+    dtype: int64
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   The highest number of **ratings by a user is 295** which is far from
+    the actual number of products present in the data. We can build a
+    recommendation system to recommend products to users which they have
+    not interacted with.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Data Preparation (2 Marks)**[¶](#Data-Preparation--(2-Marks)){.anchor-link} {#Data-Preparation--(2-Marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question: Check the number of unique USERS and PRODUCTS in the final data and provide observations.**[¶](#Question:-Check-the-number-of-unique-USERS-and-PRODUCTS-in-the-final-data-and-provide-observations.){.anchor-link} {#Question:-Check-the-number-of-unique-USERS-and-PRODUCTS-in-the-final-data-and-provide-observations.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[20\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Check the number of unique USERS and PRODUCTS in the final data and provide observations
+    print('The number of observations in the final data = ', len(df_final))
+
+    print('Number of unique USERS in the final data = ', df_final['user_id'].nunique())
+
+    print('Number of unique PRODUCTS in the final data = ', df_final['prod_id'].nunique())
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    The number of observations in the final data =  65290
+    Number of unique USERS in the final data =  1540
+    Number of unique PRODUCTS in the final data =  5689
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: In the final data there are 1540 unique users and there
+are 5689 products. There is a possibility of 1540 \* 5689 = 8761060
+ratings possible. But we only have 65290 ratings. We can build a
+recommendations system to recommend products the users have not yet
+interacted with.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Now that we have explored and prepared the data, let\'s build the
+first recommendation system.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Rank Based Recommendation System (10 marks)**[¶](#Rank-Based-Recommendation-System-(10-marks)){.anchor-link} {#Rank-Based-Recommendation-System-(10-marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[21\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    df_final.head()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[21\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-bee23858-60b9-413d-a283-bbda8a7886dc}
+::: {.colab-df-container}
+<div>
+
+         user_id          prod_id      rating
+  ------ ---------------- ------------ --------
+  1310   A3LDPF5FMB782Z   1400501466   5.0
+  1322   A1A5KUIIIHFF4U   1400501466   1.0
+  1335   A2XIOXRRYX0KZY   1400501466   3.0
+  1451   AW3LX47IHPFRL    1400501466   5.0
+  1456   A1E3OB6QMBKRYZ   1400501466   1.0
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question:[¶](#Question:){.anchor-link} {#Question:}
+
+-   **Create the final_rating DataFrame (4 Marks)**
+-   **Complete the code to create the function top_n\_products (4
+    Marks)**
+-   **Recommending top 5 products with 50 minimum interactions based on
+    popularity (1 Mark)**
+-   **Recommending top 5 products with 100 minimum interactions based on
+    popularity (1 Mark)**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[22\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Calculate the average rating for each product 
+    average_rating = df_final.groupby('prod_id').mean()['rating']
+
+    # Calculate the count of ratings for each product
+    count_rating = df_final.groupby('prod_id').count()['rating']
+
+    # Create a dataframe with calculated average and count of ratings
+    final_rating = pd.DataFrame({'avg_rating': average_rating, 'rating_count': count_rating})
+
+    # Sort the dataframe by average of ratings in the descending order
+    final_rating = final_rating.sort_values(by= ['avg_rating'], ascending= False)
+
+    # See the first five records of the "final_rating" dataset
+    final_rating.head()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[22\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-55f45f05-68da-4c13-b98c-e78ba380da0a}
+::: {.colab-df-container}
+<div>
+
+               avg_rating   rating_count
+  ------------ ------------ --------------
+  prod_id                   
+  B00LGQ6HL8   5.0          5
+  B003DZJQQI   5.0          14
+  B005FDXF2C   5.0          7
+  B00I6CVPVC   5.0          7
+  B00B9KOCYA   5.0          8
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[23\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Defining a function to get the top n products based on the highest average rating and minimum interactions
+
+    def top_n_products(final_rating, n, min_interaction):
+        
+        # Finding products with minimum number of interactions
+        recommendations = final_rating[final_rating['rating_count'] > min_interaction]
+
+        # Sorting values with respect to average rating 
+        recommendations = recommendations.sort_values(by= ['avg_rating'], ascending= False)
+        
+        return recommendations.index[:n]
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Recommending top 5 products with 50 minimum interactions based on popularity**[¶](#Recommending-top-5-products-with-50-minimum-interactions-based-on-popularity){.anchor-link} {#Recommending-top-5-products-with-50-minimum-interactions-based-on-popularity}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[24\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    list(top_n_products(final_rating, 5, 50))
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[24\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    ['B001TH7GUU', 'B003ES5ZUU', 'B0019EHU8G', 'B006W8U2MU', 'B000QUUFRW']
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Recommending top 5 products with 100 minimum interactions based on popularity**[¶](#Recommending-top-5-products-with-100-minimum-interactions-based-on-popularity){.anchor-link} {#Recommending-top-5-products-with-100-minimum-interactions-based-on-popularity}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[25\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    list(top_n_products(final_rating, 5, 100))
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[25\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    ['B003ES5ZUU', 'B000N99BBC', 'B007WTAJTO', 'B002V88HFE', 'B004CLYEDC']
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+We have recommended the **top 5** products by using the popularity
+recommendation system. Now, let\'s build a recommendation system using
+**collaborative filtering.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+## **Collaborative Filtering Recommendation System**[¶](#Collaborative-Filtering-Recommendation-System){.anchor-link} {#Collaborative-Filtering-Recommendation-System}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+In this type of recommendation system, `we do not need any information`
+about the users or items. We only need user item interaction data to
+build a collaborative recommendation system. For example -
+
+1.  **Ratings** provided by users. For example, ratings of books on
+    goodread, movie ratings on imdb, etc.
+2.  **Likes** of users on different facebook posts, likes on youtube
+    videos.
+3.  **Use/buying** of a product by users. For example, buying different
+    items on e-commerce sites.
+4.  **Reading** of articles by readers on various blogs.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Types of Collaborative Filtering**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Similarity/Neighborhood based
+
+    -   User-User Similarity Based
+    -   Item-Item similarity based
+
+-   Model based
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Building a baseline user-user similarity based recommendation system**[¶](#Building-a-baseline-user-user-similarity-based-recommendation-system){.anchor-link} {#Building-a-baseline-user-user-similarity-based-recommendation-system}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Below, we are building **similarity-based recommendation systems**
+    using `cosine` similarity and using **KNN to find similar users**
+    which are the nearest neighbor to the given user.
+-   We will be using a new library, called `surprise`, to build the
+    remaining models. Let\'s first import the necessary classes and
+    functions from this library.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[26\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # To compute the accuracy of models
+    from surprise import accuracy
+
+    # Class is used to parse a file containing ratings, data should be in structure - user ; item ; rating
+    from surprise.reader import Reader
+
+    # Class for loading datasets
+    from surprise.dataset import Dataset
+
+    # For tuning model hyperparameters
+    from surprise.model_selection import GridSearchCV
+
+    # For splitting the rating data in train and test datasets
+    from surprise.model_selection import train_test_split
+
+    # For implementing similarity-based recommendation system
+    from surprise.prediction_algorithms.knns import KNNBasic
+
+    # For implementing matrix factorization based recommendation system
+    from surprise.prediction_algorithms.matrix_factorization import SVD
+
+    # for implementing K-Fold cross-validation
+    from surprise.model_selection import KFold
+
+    # For implementing clustering-based recommendation system
+    from surprise import CoClustering
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Before building the recommendation systems, let\'s go over some basic
+terminologies we are going to use:**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Relevant item:** An item (product in this case) that is actually
+**rated higher than the threshold rating (here 3.5)** is relevant, if
+the **actual rating is below the threshold then it is a non-relevant
+item**.
+
+**Recommended item:** An item that\'s **predicted rating is higher than
+the threshold (here 3.5) is a recommended item**, if the **predicted
+rating is below the threshold then that product will not be recommended
+to the user**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**False Negative (FN):** It is the **frequency of relevant items that
+are not recommended to the user**. If the relevant items are not
+recommended to the user, then the user might not buy the product/item.
+This would result in the **loss of opportunity for the service
+provider**, which they would like to minimize.
+
+**False Positive (FP):** It is the **frequency of recommended items that
+are actually not relevant**. In this case, the recommendation system is
+not doing a good job of finding and recommending the relevant items to
+the user. This would result in **loss of resources for the service
+provider**, which they would also like to minimize.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Recall:** It is the **fraction of actually relevant items that are
+recommended to the user**, i.e., if out of 10 relevant products, 6 are
+recommended to the user then recall is 0.60. Higher the value of recall
+better is the model. It is one of the metrics to do the performance
+assessment of classification models.
+
+**Precision:** It is the **fraction of recommended items that are
+relevant actually**, i.e., if out of 10 recommended items, 6 are found
+relevant by the user then precision is 0.60. The higher the value of
+precision better is the model. It is one of the metrics to do the
+performance assessment of classification models.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**While making a recommendation system, it becomes customary to look at
+the performance of the model. In terms of how many recommendations are
+relevant and vice-versa, below are some most used performance metrics
+used in the assessment of recommendation systems.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Precision\@k, Recall@ k, and F1-score\@k**[¶](#Precision@k,-Recall@-k,-and-F1-score@k){.anchor-link} {#Precision@k,-Recall@-k,-and-F1-score@k}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Precision\@k** - It is the **fraction of recommended items that are
+relevant in `top k` predictions**. The value of k is the number of
+recommendations to be provided to the user. One can choose a variable
+number of recommendations to be given to a unique user.
+
+**Recall\@k** - It is the **fraction of relevant items that are
+recommended to the user in `top k` predictions**.
+
+**F1-score\@k** - It is the **harmonic mean of Precision\@k and
+Recall\@k**. When **precision\@k and recall\@k both seem to be
+important** then it is useful to use this metric because it is
+representative of both of them.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Some useful functions**[¶](#Some-useful-functions){.anchor-link} {#Some-useful-functions}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Below function takes the **recommendation model** as input and gives
+    the **precision\@k, recall\@k, and F1-score\@k** for that model.
+-   To compute **precision and recall**, **top k** predictions are taken
+    under consideration for each user.
+-   We will use the precision and recall to compute the F1-score.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[27\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    def precision_recall_at_k(model, k = 10, threshold = 3.5):
+        """Return precision and recall at k metrics for each user"""
+
+        # First map the predictions to each user
+        user_est_true = defaultdict(list)
+        
+        # Making predictions on the test data
+        predictions = model.test(testset)
+        
+        for uid, _, true_r, est, _ in predictions:
+            user_est_true[uid].append((est, true_r))
+
+        precisions = dict()
+        recalls = dict()
+        for uid, user_ratings in user_est_true.items():
+
+            # Sort user ratings by estimated value
+            user_ratings.sort(key = lambda x: x[0], reverse = True)
+
+            # Number of relevant items
+            n_rel = sum((true_r >= threshold) for (_, true_r) in user_ratings)
+
+            # Number of recommended items in top k
+            n_rec_k = sum((est >= threshold) for (est, _) in user_ratings[:k])
+
+            # Number of relevant and recommended items in top k
+            n_rel_and_rec_k = sum(((true_r >= threshold) and (est >= threshold))
+                                  for (est, true_r) in user_ratings[:k])
+
+            # Precision@K: Proportion of recommended items that are relevant
+            # When n_rec_k is 0, Precision is undefined. Therefore, we are setting Precision to 0 when n_rec_k is 0
+
+            precisions[uid] = n_rel_and_rec_k / n_rec_k if n_rec_k != 0 else 0
+
+            # Recall@K: Proportion of relevant items that are recommended
+            # When n_rel is 0, Recall is undefined. Therefore, we are setting Recall to 0 when n_rel is 0
+
+            recalls[uid] = n_rel_and_rec_k / n_rel if n_rel != 0 else 0
+        
+        # Mean of all the predicted precisions are calculated.
+        precision = round((sum(prec for prec in precisions.values()) / len(precisions)), 3)
+        
+        # Mean of all the predicted recalls are calculated.
+        recall = round((sum(rec for rec in recalls.values()) / len(recalls)), 3)
+        
+        accuracy.rmse(predictions)
+        
+        print('Precision: ', precision) # Command to print the overall precision
+        
+        print('Recall: ', recall) # Command to print the overall recall
+        
+        print('F_1 score: ', round((2*precision*recall)/(precision+recall), 3)) # Formula to compute the F-1 score
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   To compute **precision and recall**, a **threshold of 3.5 and k
+    value of 10 is taken for the recommended and relevant ratings**.
+-   In the **present case, precision and recall both need to be
+    optimized as the service provider would like to minimize both the
+    losses discussed** above. Hence, the correct performance measure is
+    the **F_1 score**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we are loading the **`rating` dataset**, which is a **pandas
+DataFrame**, into a **different format called
+`surprise.dataset.DatasetAutoFolds`**, which is required by this
+library. To do this, we will be **using the classes `Reader` and
+`Dataset`.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[28\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    df_final.head()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[28\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-765f6425-ead8-444f-8d56-7bafbd282880}
+::: {.colab-df-container}
+<div>
+
+         user_id          prod_id      rating
+  ------ ---------------- ------------ --------
+  1310   A3LDPF5FMB782Z   1400501466   5.0
+  1322   A1A5KUIIIHFF4U   1400501466   1.0
+  1335   A2XIOXRRYX0KZY   1400501466   3.0
+  1451   AW3LX47IHPFRL    1400501466   5.0
+  1456   A1E3OB6QMBKRYZ   1400501466   1.0
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[29\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Instantiating Reader scale with expected rating scale
+    reader = Reader(rating_scale = (0, 5))
+
+    # Loading the rating dataset
+    data = Dataset.load_from_df(df_final[['user_id', 'prod_id', 'rating']], reader)
+
+    # Splitting the data into train and test datasets
+    trainset, testset = train_test_split(data, test_size = 0.2, random_state = 42)
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Now, we are **ready to build the first baseline similarity-based
+    recommendation system** using the cosine similarity.
+-   **KNNBasic** is an algorithm that is also **associated with the
+    surprise package**. It is used to find the **desired similar items
+    among a given set of items**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question :** Build the user-user similarity-based recommendation system (5 Marks)[¶](#Question-:-Build-the-user-user-similarity-based-recommendation-system-(5-Marks)){.anchor-link} {#Question-:-Build-the-user-user-similarity-based-recommendation-system-(5-Marks)}
+
+-   **Initialize the KNNBasic model using sim_options provided,
+    Verbose=False, and setting random_state=1 (1 Mark)**
+
+-   **Fit the model on the training data (1 Mark)**
+
+-   **Use the precision_recall_at_k function to calculate the metrics on
+    the test data (1 Mark)**
+
+-   **Provide your observations on the output (2 Marks)**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[30\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Declaring the similarity options
+    sim_options = {'name': 'cosine',
+                   'user_based': True}
+
+    # Initialize the KNNBasic model using sim_options provided, Verbose = False, and setting random_state = 1
+    sim_user_user = KNNBasic(sim_options= sim_options, verbose= False, random_state= 1)
+
+    # Fit the model on the training data
+    sim_user_user.fit(trainset)
+
+    # Let us compute precision@k, recall@k, and f_1 score using the precision_recall_at_k function defined above
+    precision_recall_at_k(sim_user_user)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 1.0012
+    Precision:  0.855
+    Recall:  0.858
+    F_1 score:  0.856
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: RMSE is how far are the predicted ratings to the actual
+ratings. Recall tells us that out of all the relevant products, 85.6%
+are relevant. F_1 has a high score which tells us that most of the
+movies recommended were relevant and that most of the relevant movies
+were recommended.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Let\'s now **predict rating for a user with `userId=A3LDPF5FMB782Z` and
+`productId=1400501466`** as shown below. Here the user has already
+interacted or watched the product with productId \'1400501466\' and
+given a rating of 5 which is denoted by the parameter r_ui.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[31\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Predicting rating for a sample user with an interacted product
+    sim_user_user.predict("A3LDPF5FMB782Z", "1400501466", r_ui = 5, verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 3.40   {'actual_k': 5, 'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[31\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=5, est=3.4, details={'actual_k': 5, 'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   The above output shows that **the actual rating for this user-item
+    pair is 5, and the predicted rating is 3.40** by this
+    **user-user-similarity-based baseline model**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below is the **list of users who have not seen the product with product
+id \"1400501466\"**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[32\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    df_final[df_final.prod_id == "1400501466"].user_id.unique()
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[32\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    array(['A3LDPF5FMB782Z', 'A1A5KUIIIHFF4U', 'A2XIOXRRYX0KZY',
+           'AW3LX47IHPFRL', 'A1E3OB6QMBKRYZ', 'A19N3S7CBSU6O7'], dtype=object)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   It can be observed from the above list that **user
+    \"A34BZM6S9L7QI4\" has not seen the product with productId
+    \"1400501466\"** as this user id is not a part of the above list.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we are **predicting rating for the same `userId=A34BZM6S9L7QI4`
+but for a product which this user has not seen yet i.e.
+`prod_id=1400501466`**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[33\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Predicting rating for a sample user with a non interacted product
+    sim_user_user.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[33\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.292024046561495, details={'was_impossible': True, 'reason': 'Not enough neighbors.'})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   The **predicted rating for this user is around 4.3** based on this
+
+------------------------------------------------------------------------
+
+**user-user similarity-based baseline model**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Improving similarity-based recommendation system by tuning its hyperparameters**[¶](#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters){.anchor-link} {#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below, we will be tuning hyperparameters for the `KNNBasic` algorithms.
+Let\'s try to understand some of the hyperparameters of the KNNBasic
+algorithm:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   **k** (int) -- The (max) number of neighbors to take into account
+    for aggregation. Default is 40.
+-   **min_k** (int) -- The minimum number of neighbors to take into
+    account for aggregation. If there are not enough neighbors, the
+    prediction is set to the global mean of all ratings. Default is 1.
+-   **sim_options** (dict) -- A dictionary of options for the similarity
+    measure. And there are four similarity measures available in
+    surprise -
+    -   cosine
+    -   msd (default)
+    -   Pearson
+    -   Pearson baseline
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[34\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Setting up parameter grid to tune the hyperparameters
+    param_grid = {'k': [20, 30, 40], 'min_k': [3, 6, 9],
+                  'sim_options': {'name': ['msd', 'cosine'],
+                                  'user_based': [True]}
+                  }
+
+    # Performing 3-fold cross-validation to tune the hyperparameters
+    gs = GridSearchCV(KNNBasic, param_grid, measures = ['rmse'], cv = 3, n_jobs = -1)
+
+    # Fitting the data
+    gs.fit(data)
+
+    # Best RMSE score
+    print(gs.best_score['rmse'])
+
+    # Combination of parameters that gave the best RMSE score
+    print(gs.best_params['rmse'])
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    0.9722058251977456
+    {'k': 40, 'min_k': 6, 'sim_options': {'name': 'cosine', 'user_based': True}}
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Once the grid search is **complete**, we can get the **optimal values
+for each of those hyperparameters** as shown above.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Now, let\'s build the **final model by using tuned values of the
+hyperparameters**, which we received by using **grid search
+cross-validation**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[35\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Using the optimal similarity measure for user-user based collaborative filtering
+    sim_options = {'name': 'cosine',
+                   'user_based': True}
+
+    # Creating an instance of KNNBasic with optimal hyperparameter values
+    sim_user_user_optimized = KNNBasic(sim_options = sim_options, k = 40, min_k = 6, random_state = 1, verbose = False)
+
+    # Training the algorithm on the trainset
+    sim_user_user_optimized.fit(trainset)
+
+    # Let us compute precision@k and recall@k also with k =10
+    precision_recall_at_k(sim_user_user_optimized)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 0.9526
+    Precision:  0.847
+    Recall:  0.894
+    F_1 score:  0.87
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   We can observe that after tuning hyperparameters, **F_1 score of the
+    tuned model is 0.87, which is slightly better than the baseline
+    model**. Along with this, **the RMSE of the model has gone down as
+    compared to the model before hyperparameter tuning**. Hence, we can
+    say that the model performance has improved slightly after
+    hyperparameter tuning.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Let\'s now **predict the rating for a user with `userId` =
+\"A3LDPF5FMB782Z\", and prod_id = 1400501466 with the optimized model as
+shown below**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Question:**[¶](#Question:){.anchor-link} {#Question:}
+
+-   **Predict rating for the user with `userId`=\"A3LDPF5FMB782Z\", and
+    `prod_id`= 1400501466 using the optimized model (1 Mark)**
+-   **Predict rating for the same userId=\"A34BZM6S9L7QI4\" but for a
+    product with which this user has not interacted before, i.e.,
+    prod_id = 1400501466, by using the optimized model (1 Mark)**
+-   **Compare the output with the output from the baseline model (2
+    Marks)**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[36\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Use sim_user_user_optimized model to recommend for userId "A3LDPF5FMB782Z" and productId 1400501466
+    sim_user_user_optimized.predict("A3LDPF5FMB782Z", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = None   est = 4.29   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[36\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=None, est=4.292024046561495, details={'was_impossible': True, 'reason': 'Not enough neighbors.'})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[37\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Use sim_user_user_optimized model to recommend for userId "A34BZM6S9L7QI4" and productId "1400501466"
+    sim_user_user_optimized.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[37\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.292024046561495, details={'was_impossible': True, 'reason': 'Not enough neighbors.'})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: The predicted rating for both users is around 4.3 based
+on this user-user-optimized similarity-based baseline model.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Identifying similar items to a given item (nearest neighbors)**[¶](#Identifying-similar-items-to-a-given-item-(nearest-neighbors)){.anchor-link} {#Identifying-similar-items-to-a-given-item-(nearest-neighbors)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+We can also find out **similar items to a given item** or its **nearest
+neighbors** based on this KNNBasic algorithm. Below, we are finding the
+5 most similar items to the first user in the list with internal id 0,
+based on the `msd` distance metric.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[38\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Here, 0 is the inner id of the above item
+    sim_user_user_optimized.get_neighbors(0, 5)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[38\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    [6, 7, 17, 26, 32]
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Implementing the recommendation algorithm based on optimized KNNBasic model**[¶](#Implementing-the-recommendation-algorithm-based-on-optimized-KNNBasic-model){.anchor-link} {#Implementing-the-recommendation-algorithm-based-on-optimized-KNNBasic-model}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we will be implementing a function where the input parameters are:
+
+-   data: A **rating** dataset
+-   user_id: A user id **against which we want the recommendations**
+-   top_n: The **number of products we want to recommend**
+-   algo: the algorithm we want to use **for predicting the ratings**
+-   The output of the function is a **set of top_n items** recommended
+    for the given user_id based on the given algorithm
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[39\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    def get_recommendations(data, user_id, top_n, algo):
+        
+        # Creating an empty list to store the recommended product ids
+        recommendations = []
+        
+        # Creating an user item interactions matrix 
+        user_item_interactions_matrix = data.pivot(index = 'user_id', columns = 'prod_id', values = 'rating')
+        
+        # Extracting those product ids which the user_id has not interacted yet
+        non_interacted_products = user_item_interactions_matrix.loc[user_id][user_item_interactions_matrix.loc[user_id].isnull()].index.tolist()
+        
+        # Looping through each of the product ids which user_id has not interacted yet
+        for item_id in non_interacted_products:
+            
+            # Predicting the ratings for those non interacted product ids by this user
+            est = algo.predict(user_id, item_id).est
+            
+            # Appending the predicted ratings
+            recommendations.append((item_id, est))
+
+        # Sorting the predicted ratings in descending order
+        recommendations.sort(key = lambda x: x[1], reverse = True)
+
+        return recommendations[:top_n] # Returing top n highest predicted rating products for this user
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+#### **Predicting top 5 products for userId = \"A3LDPF5FMB782Z\" with similarity based recommendation system**[¶](#Predicting-top-5-products-for-userId-=-%22A3LDPF5FMB782Z%22-with-similarity-based-recommendation-system){.anchor-link} {#Predicting-top-5-products-for-userId-=-%22A3LDPF5FMB782Z%22-with-similarity-based-recommendation-system}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[40\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Making top 5 recommendations for user_id "A3LDPF5FMB782Z" with a similarity-based recommendation engine
+    recommendations = get_recommendations(df_final, "A3LDPF5FMB782Z", 5, sim_user_user_optimized)
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[41\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Building the dataframe for above recommendations with columns "prod_id" and "predicted_ratings"
+    pd.DataFrame(recommendations, columns = ['prod_id', 'predicted_ratings'])
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[41\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-afc698be-76b8-442a-bbf8-7624b57654d0}
+::: {.colab-df-container}
+<div>
+
+      prod_id      predicted_ratings
+  --- ------------ -------------------
+  0   B000067RT6   5
+  1   B000BQ7GW8   5
+  2   B001TH7GUU   5
+  3   B005ES0YYA   5
+  4   B00834SJSK   5
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### **Correcting the Ratings and Ranking the above products**[¶](#Correcting-the-Ratings-and-Ranking-the-above-products){.anchor-link} {#Correcting-the-Ratings-and-Ranking-the-above-products}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+While comparing the ratings of two products, it is not only the
+**ratings** that describe the **likelihood of the user to that
+product**. Along with the rating, the **number of users who have seen
+that product** also becomes important to consider. Due to this, we have
+calculated the **\"corrected_ratings\"** for each product. Commonly
+higher the **\"rating_count\" of a product more it is liked by users**.
+To interpret the above concept, a **product rated 4 with rating_count 3
+is less liked in comparison to a product rated 3 with a rating count of
+50**. It has been **empirically found that the likelihood of the product
+is directly proportional to the inverse of the square root of the
+rating_count of the product**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[42\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    def ranking_products(recommendations, final_rating):
+      # Sort the products based on ratings count
+      ranked_products = final_rating.loc[[items[0] for items in recommendations]].sort_values('rating_count', ascending = False)[['rating_count']].reset_index()
+
+      # Merge with the recommended products to get predicted ratings
+      ranked_products = ranked_products.merge(pd.DataFrame(recommendations, columns = ['prod_id', 'predicted_ratings']), on = 'prod_id', how = 'inner')
+
+      # Rank the products based on corrected ratings
+      ranked_products['corrected_ratings'] = ranked_products['predicted_ratings'] - 1 / np.sqrt(ranked_products['rating_count'])
+
+      # Sort the products based on corrected ratings
+      ranked_products = ranked_products.sort_values('corrected_ratings', ascending = False)
+      
+      return ranked_products
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Note:** In the **above-corrected rating formula**, we can add the
+**quantity `1/np.sqrt(n)` instead of subtracting it to get more
+optimistic predictions**. But here we are **subtracting this quantity**,
+as there are some products with ratings 5 and **we can\'t have a rating
+more than 5 for a product**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[43\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Applying the ranking products function and sorting it based on corrected ratings
+    ranking_products(recommendations, final_rating)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[43\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-6520768e-ab48-46ec-b839-fa2f9016e93c}
+::: {.colab-df-container}
+<div>
+
+      prod_id      rating_count   predicted_ratings   corrected_ratings
+  --- ------------ -------------- ------------------- -------------------
+  0   B00834SJSK   101            5                   4.900496
+  1   B001TH7GUU   78             5                   4.886772
+  2   B000BQ7GW8   54             5                   4.863917
+  3   B000067RT6   41             5                   4.843826
+  4   B005ES0YYA   26             5                   4.803884
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Item-Item Similarity-based collaborative filtering recommendation systems[¶](#Item-Item-Similarity-based-collaborative-filtering-recommendation-systems){.anchor-link} {#Item-Item-Similarity-based-collaborative-filtering-recommendation-systems}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Above we have seen **similarity-based collaborative filtering**
+    where similarity is calculated **between users**. Now let us look
+    into similarity-based collaborative filtering where similarity is
+    seen **between items**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[44\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Declaring the similarity options
+    sim_options = {'name': 'cosine',
+                   'user_based': False}
+
+    # KNN algorithm is used to find desired similar items
+    sim_item_item = KNNBasic(sim_options = sim_options, random_state = 1, verbose = False)
+
+    # Train the algorithm on the trainset, and predict ratings for the test set
+    sim_item_item.fit(trainset)
+
+    # Let us compute precision@k, recall@k, and f_1 score with k = 10
+    precision_recall_at_k(sim_item_item)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 0.9950
+    Precision:  0.838
+    Recall:  0.845
+    F_1 score:  0.841
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   The baseline model is giving a good F_1 score of \~ 84%. We will try
+    to **improve this later by using GridSearchCV** by tuning different
+    hyperparameters of this algorithm.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Let\'s now **predict a rating for a user with `userId = A3LDPF5FMB782Z`
+and `prod_Id = 1400501466`** as shown below. Here the user has already
+interacted or watched the product with productId \"1400501466\".
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[45\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Predicting rating for a sample user with an interacted product
+    sim_item_item.predict("A3LDPF5FMB782Z", "1400501466", r_ui = 5, verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.27   {'actual_k': 22, 'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[45\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=5, est=4.2727272727272725, details={'actual_k': 22, 'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   The above output shows that **the actual rating for this user-item
+    pair is 5 and the predicted rating is 4.27** by this
+    **item-item-similarity-based baseline model**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we are **predicting rating for the same `userId = A34BZM6S9L7QI4`
+but for a product with which this user has not interacted yet, i.e.,
+`prod_id = 1400501466`**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[46\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Predicting rating for a sample user with a non interacted product
+    sim_item_item.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[46\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.292024046561495, details={'was_impossible': True, 'reason': 'Not enough neighbors.'})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+As we can see the **predicted rating for this user-item pair is good
+(around 4.3)** based on this **item-item similarity-based baseline
+model**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+#### Improving similarity-based recommendation system by tuning its hyperparameters[¶](#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters){.anchor-link} {#Improving-similarity-based-recommendation-system-by-tuning-its-hyperparameters}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we will be **tuning hyperparameters for the `KNNBasic`
+algorithms**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question: Hyperparameter tuning the item-item similarity-based model. (6 marks)[¶](#Question:-Hyperparameter-tuning-the-item-item-similarity-based-model.-(6-marks)){.anchor-link} {#Question:-Hyperparameter-tuning-the-item-item-similarity-based-model.-(6-marks)}
+
+-   Use the following values for the param_grid and tune the model. (3
+    Marks)
+    -   \'k\': \[10, 20, 30\]
+    -   \'min_k\': \[3, 6, 9\]
+    -   \'sim_options\': {\'name\': \[\'msd\', \'cosine\'\]
+    -   \'user_based\': \[False\]
+-   Use GridSearchCV() to tune the model using the \'rmse\' measure (2
+    Marks)
+-   Print the best score and best parameters (1 Mark)
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[47\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Setting up parameter grid to tune the hyperparameters
+    param_grid = {'k': [10,20,30], 'min_k': [3,6,9], 'sim_options':{'name':['msd', 'cosine']}, 'user_based': [False]}
+
+    # Performing 3-fold cross validation to tune the hyperparameters
+    gs = GridSearchCV(KNNBasic, param_grid, measures= ['rmse'], cv= 3, n_jobs= -1)
+
+    # Fitting the data
+    gs.fit(data)
+
+    # Find the best RMSE score
+    print(gs.best_score['rmse'])
+
+    # Find the combination of parameters that gave the best RMSE score
+    print(gs.best_params['rmse'])
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    0.9717799272189701
+    {'k': 30, 'min_k': 6, 'sim_options': {'name': 'cosine', 'user_based': True}, 'user_based': False}
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Once the **grid search** is complete, we can get the **optimal values
+for each of those hyperparameters as shown above.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Now let\'s build the **final model** by using **tuned values of the
+hyperparameters** which we received by using grid search
+cross-validation.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question: Use the best parameters from GridSearchCV to build the optimized item-item similarity-based model. Compare the performance of the optimized model with the baseline model. (5 Marks)[¶](#Question:-Use-the-best-parameters-from-GridSearchCV-to-build-the-optimized-item-item-similarity-based-model.-Compare-the-performance-of-the-optimized-model-with-the-baseline-model.-(5-Marks)){.anchor-link} {#Question:-Use-the-best-parameters-from-GridSearchCV-to-build-the-optimized-item-item-similarity-based-model.-Compare-the-performance-of-the-optimized-model-with-the-baseline-model.-(5-Marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[48\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Using the optimal similarity measure for item-item based collaborative filtering
+    sim_options = {'name': 'cosine', 'user_based': False}
+
+    # Creating an instance of KNNBasic with optimal hyperparameter values
+    sim_item_item_optimized = KNNBasic(sim_options = sim_options ,k= 30 , min_k= 6 , random_state = 1, verbose = False)
+
+    # Training the algorithm on the trainset
+    sim_item_item_optimized.fit(trainset)
+
+    # Let us compute precision@k and recall@k, f1_score and RMSE
+    precision_recall_at_k(sim_user_user_optimized)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 0.9526
+    Precision:  0.847
+    Recall:  0.894
+    F_1 score:  0.87
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: After changing the hyperparameters, the score of F1 is
+better than the original model. Furthermore, the score of the RMSE has
+decreased therefore the model has imporved after the tuning.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Let\'s us now predict **rating for an user with
+`userId = A3LDPF5FMB782Z` and for `prod_id = 1400501466`** with the
+**optimized model** as shown below:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[49\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    sim_item_item_optimized.predict("A3LDPF5FMB782Z", "1400501466", r_ui = 5, verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.27   {'actual_k': 22, 'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[49\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=5, est=4.2727272727272725, details={'actual_k': 22, 'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we are **predicting rating** for the same
+**`userId = A34BZM6S9L7QI4`** but for a product with which this user
+**has not interacted before**, i.e., `prod_id == 1400501466`, by using
+the optimized model as shown below:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[50\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    sim_item_item_optimized.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.29   {'was_impossible': True, 'reason': 'Not enough neighbors.'}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[50\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.292024046561495, details={'was_impossible': True, 'reason': 'Not enough neighbors.'})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   For an unknown product the model is predicting a rating of **4.29**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+#### Identifying similar items to a given item (nearest neighbors)[¶](#Identifying-similar-items-to-a-given-item-(nearest-neighbors)){.anchor-link} {#Identifying-similar-items-to-a-given-item-(nearest-neighbors)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+We can also find out **similar items** to a given item or its nearest
+neighbors based on this **KNNBasic algorithm**. Below we are finding the
+5 most similar items to the item with internal id 0 based on the `msd`
+distance metric.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[51\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    sim_item_item_optimized.get_neighbors(0, k = 5)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[51\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    [3, 11, 29, 40, 48]
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+#### Predicted top 5 products for userId = \"A1A5KUIIIHFF4U\" with similarity based recommendation system.[¶](#Predicted-top-5-products-for-userId-=-%22A1A5KUIIIHFF4U%22-with-similarity-based-recommendation-system.){.anchor-link} {#Predicted-top-5-products-for-userId-=-%22A1A5KUIIIHFF4U%22-with-similarity-based-recommendation-system.}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[52\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Making top 5 recommendations for user_id A1A5KUIIIHFF4U with similarity-based recommendation engine.
+    recommendations = get_recommendations(df_final, "A1A5KUIIIHFF4U", 5, sim_item_item_optimized)
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[53\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Building the dataframe for above recommendations with columns "prod_id" and "predicted_ratings"
+    pd.DataFrame(recommendations, columns = ['prod_id', 'predicted_ratings'])
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[53\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-36faab5a-b996-44d9-83f2-9eca5ec0be45}
+::: {.colab-df-container}
+<div>
+
+      prod_id      predicted_ratings
+  --- ------------ -------------------
+  0   1400532655   4.292024
+  1   1400599997   4.292024
+  2   9983891212   4.292024
+  3   B00000DM9W   4.292024
+  4   B00000J1V5   4.292024
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[54\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Applying the ranking products function and sorting it based on the corrected ratings 
+    ranking_products(recommendations, final_rating)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[54\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-b813c461-9b68-459c-bfe6-47587f531962}
+::: {.colab-df-container}
+<div>
+
+      prod_id      rating_count   predicted_ratings   corrected_ratings
+  --- ------------ -------------- ------------------- -------------------
+  0   9983891212   8              4.292024            3.938471
+  1   B00000J1V5   7              4.292024            3.914060
+  2   1400532655   6              4.292024            3.883776
+  3   1400599997   5              4.292024            3.844810
+  4   B00000DM9W   5              4.292024            3.844810
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Now as we have seen **similarity-based collaborative filtering
+    algorithms**, let us now get into **model-based collaborative
+    filtering algorithms**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Model-Based Collaborative Filtering - Matrix Factorization[¶](#Model-Based-Collaborative-Filtering---Matrix-Factorization){.anchor-link} {#Model-Based-Collaborative-Filtering---Matrix-Factorization}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Model-based Collaborative Filtering is a **personalized recommendation
+system**, the recommendations are based on the past behavior of the user
+and it is not dependent on any additional information. We use **latent
+features** to find recommendations for each user.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Singular Value Decomposition (SVD)[¶](#Singular-Value-Decomposition-(SVD)){.anchor-link} {#Singular-Value-Decomposition-(SVD)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+SVD is used to **compute the latent features** from the **user-item
+matrix**. But SVD does not work when we **miss values** in the
+**user-item matrix**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question: Build the matrix factorization recommendation system (using random_state = 1) and provide your observations on the performance of the model. (4 Marks)[¶](#Question:-Build-the-matrix-factorization-recommendation-system-(using-random_state-=-1)-and-provide-your-observations-on-the-performance-of-the-model.-(4-Marks)){.anchor-link} {#Question:-Build-the-matrix-factorization-recommendation-system-(using-random_state-=-1)-and-provide-your-observations-on-the-performance-of-the-model.-(4-Marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[55\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Using SVD matrix factorization
+    svd = SVD(random_state = 1)
+
+    # Training the algorithm on the trainset
+    svd.fit(trainset)
+
+    # Use the function precision_recall_at_k to compute precision@k, recall@k, F1-Score, and RMSE
+    precision_recall_at_k(svd)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 0.8882
+    Precision:  0.853
+    Recall:  0.88
+    F_1 score:  0.866
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: The F_1 score for the matrix factorization
+recommendation system is lower than with the user_user_similarity
+recommendation system.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+-   Let\'s now predict the rating for a user with
+    `userId = "A3LDPF5FMB782Z"` and `prod_id = "1400501466` as shown
+    below.
+-   Here, the user has already rated the product.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[56\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Making prediction
+    svd.predict("A3LDPF5FMB782Z", "1400501466", r_ui = 5, verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = 5.00   est = 4.08   {'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[56\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=5, est=4.081406749810685, details={'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+As we can observe, **the actual rating** for this user-item pair is 5,
+and the predicted rating is **4.08** by this matrix
+**factorization-based baseline model**. It seems like we have
+under-estimated the rating. We will try to fix this later by **tuning
+the hyperparameters** of the model using GridSearchCV.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we are predicting rating for the same `userId = A34BZM6S9L7QI4`
+but for a product with which this user has not interacted before, i.e.,
+`productId = 1400501466`, as shown below:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[57\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Making prediction
+    svd.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.40   {'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[57\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.40037568046934, details={'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+We can see that the **estimated rating** for this **user-item pair** is
+4.40 based on this **matrix factorization based baseline model**.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+#### Improving matrix factorization based recommendation system by tuning its hyperparameters[¶](#Improving-matrix-factorization-based-recommendation-system-by-tuning-its-hyperparameters){.anchor-link} {#Improving-matrix-factorization-based-recommendation-system-by-tuning-its-hyperparameters}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+In SVD, rating is predicted as:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+\$\$\\hat{r}\_{u i}=\\mu+b\_{u}+b\_{i}+q\_{i}\^{T} p\_{u}\$\$
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+If user \$u\$ is unknown, then the bias \$b\_{u}\$ and the factors
+\$p\_{u}\$ are assumed to be zero. The same applies for item \$i\$ with
+\$b\_{i}\$ and \$q\_{i}\$.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+To estimate all the unknown, we minimize the following regularized
+squared error:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+\$\$\\sum\_{r\_{u i} \\in R\_{\\text {train }}}\\left(r\_{u
+i}-\\hat{r}\_{u
+i}\\right)\^{2}+\\lambda\\left(b\_{i}\^{2}+b\_{u}\^{2}+\\left\\\|q\_{i}\\right\\\|\^{2}+\\left\\\|p\_{u}\\right\\\|\^{2}\\right)\$\$
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+The minimization is performed by a very straightforward **stochastic
+gradient descent**:
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+\$\$\\begin{aligned} b\_{u} & \\leftarrow b\_{u}+\\gamma\\left(e\_{u
+i}-\\lambda b\_{u}\\right) \\\\ b\_{i} & \\leftarrow
+b\_{i}+\\gamma\\left(e\_{u i}-\\lambda b\_{i}\\right) \\\\ p\_{u} &
+\\leftarrow p\_{u}+\\gamma\\left(e\_{u i} \\cdot q\_{i}-\\lambda
+p\_{u}\\right) \\\\ q\_{i} & \\leftarrow q\_{i}+\\gamma\\left(e\_{u i}
+\\cdot p\_{u}-\\lambda q\_{i}\\right) \\end{aligned}\$\$
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+There are many hyperparameters to tune in this algorithm, you can find a
+full list of hyperparameters
+[here](https://surprise.readthedocs.io/en/stable/matrix_factorization.html#surprise.prediction_algorithms.matrix_factorization.SVD)
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Below we will be tuning only three hyperparameters:
+
+-   **n_epochs**: The number of iterations of the SGD algorithm.
+-   **lr_all**: The learning rate for all parameters.
+-   **reg_all**: The regularization term for all parameters.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[58\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Set the parameter space to tune
+    param_grid = {'n_epochs': [10, 20, 30], 'lr_all': [0.001, 0.005, 0.01],
+                  'reg_all': [0.2, 0.4, 0.6]}
+
+    # Performing 3-fold gridsearch cross-validation
+    gs_ = GridSearchCV(SVD, param_grid, measures = ['rmse'], cv = 3, n_jobs = -1)
+
+    # Fitting data
+    gs_.fit(data)
+
+    # Best RMSE score
+    print(gs_.best_score['rmse'])
+
+    # Combination of parameters that gave the best RMSE score
+    print(gs_.best_params['rmse'])
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    0.8994316378239794
+    {'n_epochs': 20, 'lr_all': 0.01, 'reg_all': 0.4}
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Once the **grid search** is complete, we can get the **optimal values**
+for each of those hyperparameters, as shown above.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Now, we will **the build final model** by using **tuned values** of the
+hyperparameters, which we received using grid search cross-validation
+above.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question: Fit the SVD model using the hyperparameters from GridSearchCV (use random_state = 1) and compare the output with the baseline model. (5 Marks)[¶](#Question:-Fit-the-SVD-model-using-the-hyperparameters-from-GridSearchCV-(use-random_state-=-1)-and-compare-the-output-with-the-baseline-model.-(5-Marks)){.anchor-link} {#Question:-Fit-the-SVD-model-using-the-hyperparameters-from-GridSearchCV-(use-random_state-=-1)-and-compare-the-output-with-the-baseline-model.-(5-Marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[59\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Build the optimized SVD model using optimal hyperparameter search
+    svd_optimized = SVD(n_epochs= 20, lr_all= 0.01, reg_all= 0.4, random_state= 1)
+
+    # Train the algorithm on the trainset
+    svd_optimized = svd_optimized.fit(trainset)
+
+    # Use the function precision_recall_at_k to compute precision@k, recall@k, F1-Score, and RMSE
+    precision_recall_at_k(svd_optimized)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    RMSE: 0.8822
+    Precision:  0.854
+    Recall:  0.884
+    F_1 score:  0.869
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: Although we adjusted the hyperparameters the value of
+F_1 has decreased rendering the second model less optimal.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Let\'s now predict a rating for a user with `userId = A3LDPF5FMB782Z`
+and `productId = 1400501466` with the optimized model as shown below.
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question:[¶](#Question:){.anchor-link} {#Question:}
+
+-   **Using the optimized svd model, predict rating for the user with
+    `userId` = \"A3LDPF5FMB782Z\", and `prod_id` = 1400501466. (1
+    Mark)**
+-   **Predict rating for the same userId = \"A34BZM6S9L7QI4\" but for a
+    product with which this user has not interacted before, i.e.,
+    prod_id = 1400501466, by using the optimized model. (1 Mark)**
+-   **Compare the output with the output from the baseline model. (2
+    Marks)**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[60\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Use svd_algo_optimized model to recommend for userId "A3LDPF5FMB782Z" and productId "1400501466"
+    svd_optimized.predict("A3LDPF5FMB782Z", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A3LDPF5FMB782Z item: 1400501466 r_ui = None   est = 4.04   {'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[60\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A3LDPF5FMB782Z', iid='1400501466', r_ui=None, est=4.0394144191097014, details={'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[61\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Use svd_algo_optimized model to recommend for userId "A34BZM6S9L7QI4" and productId "1400501466"
+    svd_optimized.predict("A34BZM6S9L7QI4", "1400501466", verbose = True)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output mime-type="text/plain"}
+    user: A34BZM6S9L7QI4 item: 1400501466 r_ui = None   est = 4.17   {'was_impossible': False}
+:::
+:::
+
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[61\]:
+:::
+
+::: {.jp-RenderedText .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/plain"}
+    Prediction(uid='A34BZM6S9L7QI4', iid='1400501466', r_ui=None, est=4.172649353607237, details={'was_impossible': False})
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+**Observations: We can see that the estimated rating for this user-item
+pair is 4.17 based on this matrix factorization based baseline model
+with the hyperparamters changed.**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Question:[¶](#Question:){.anchor-link} {#Question:}
+
+-   **Get 5 recommendations for the user with user_id =
+    \'A2XIOXRRYX0KZY\' using the svd_optimized model. Hint: Use
+    get_recommendations() function (2 Marks)**
+-   **Rank the recommendations on the basis of the correct ratings.
+    Hint: Use ranking_products() function (2 Marks)**
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell .jp-mod-noOutputs}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[62\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Get top 5 recommendations for user_id A2XIOXRRYX0KZY using "svd_optimized" algorithm
+    svd_recommendations = get_recommendations(df_final, 'A2XIOXRRYX0KZY', 5, svd_optimized)
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-CodeCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+In \[63\]:
+:::
+
+::: {.jp-CodeMirrorEditor .jp-Editor .jp-InputArea-editor data-type="inline"}
+::: {.CodeMirror .cm-s-jupyter}
+::: {.highlight .hl-ipython3}
+    # Ranking products based on the above recommendations
+    ranking_products(svd_recommendations, final_rating)
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell-outputWrapper}
+::: {.jp-Collapser .jp-OutputCollapser .jp-Cell-outputCollapser}
+:::
+
+::: {.jp-OutputArea .jp-Cell-outputArea}
+::: {.jp-OutputArea-child}
+::: {.jp-OutputPrompt .jp-OutputArea-prompt}
+Out\[63\]:
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedHTML .jp-OutputArea-output .jp-OutputArea-executeResult mime-type="text/html"}
+::: {#df-e058adf2-3820-4797-8386-4ec78f1d8a67}
+::: {.colab-df-container}
+<div>
+
+      prod_id      rating_count   predicted_ratings   corrected_ratings
+  --- ------------ -------------- ------------------- -------------------
+  0   B0033PRWSW   15             4.788765            4.530566
+  1   B0010Y414Q   11             4.819066            4.517555
+  2   B000JV9LUK   10             4.817486            4.501259
+  3   B00AR95ESC   9              4.813332            4.479999
+  4   B00065AO0K   5              4.784775            4.337561
+
+</div>
+
+![](vertopal_e7bb35ab87b7484bb78f0e9369385082/7b5974ee7b7391c1d1a12e31fb9b4c8ef16527c7.svg)
+:::
+:::
+:::
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+### Conclusion (5 Marks)[¶](#Conclusion-(5-Marks)){.anchor-link} {#Conclusion-(5-Marks)}
+:::
+:::
+:::
+:::
+
+::: {.jp-Cell .jp-MarkdownCell .jp-Notebook-cell}
+::: {.jp-Cell-inputWrapper}
+::: {.jp-Collapser .jp-InputCollapser .jp-Cell-inputCollapser}
+:::
+
+::: {.jp-InputArea .jp-Cell-inputArea}
+::: {.jp-InputPrompt .jp-InputArea-prompt}
+:::
+
+::: {.jp-RenderedHTMLCommon .jp-RenderedMarkdown .jp-MarkdownOutput mime-type="text/markdown"}
+Throughout this notebook, we built a recommendation system using
+different techniques.
+
+-   First, we used the Rank-Based technique to find the highest-ranked
+    products.
+-   Secondly, we used the user-user similarity-based collaborative
+    filtering, which consists of predicting items that a user might like
+    based on the ratings given to an item provided by other users. These
+    other users are similar to the one we are recommending the product
+    to.
+-   Thirdly, we used the item-item similarity-based collaborative
+    filtering, which consists of predicting items that a user might like
+    based on the rating of similar products rated by that same user.
+-   Finally, we used the Model-based (matrix factorisation)
+    collaborative filtering.
+
+In order to be sure that we are using the best performing models, we
+grid searched cross-validation to find the optimal hyper parameters for
+the data. We have various evaluation systems. Such as the precision\@k
+and recall\@k which gives us the F_1 score. We can then choose the
+better performing model according to the RMSE and F_1 scores.
+
+These methods help us recommend items to users in the most optimal and
+correct way possible.
+:::
+:::
+:::
+:::
+
 
