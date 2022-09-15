@@ -84,7 +84,7 @@ params:
       - image: pic01.jpg
         subtitle: The story of my life
         title: About me
-        url: blogs/about_me
+        url: blogs/about
       - image: pic02.jpg
         subtitle: More about me professionally
         title: CV
@@ -92,7 +92,7 @@ params:
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam
         title: Python Project
-        url: blogs/python_project
+        url: blogs/python
       - image: pic04.jpg
         subtitle: Nisl Sed Aliquam
         title: Ipsum
