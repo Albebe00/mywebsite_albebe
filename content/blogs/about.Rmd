@@ -12,12 +12,17 @@ slug: about
 title: About me
 ---
 
-Hi, I'm **Alberic**. I have lived nearly all my life in London so I consider myself a Englishmen even though I am French. My passions go from cooking food.
+Hi, I'm **Alberic**. I have lived nearly all my life in London so I consider myself a Englishmen even though I am French. My passions go from cooking food...
 
-```{r, echo= FALSE, error= FALSE}
-knitr::include_graphics("/img/Thon.jpg",error= FALSE)
+
+```{r, echo= FALSE, error= FALSE, out.width= "50%", out.height= "20%", fig.show= 'hold', fig.align='center'}
+knitr::include_graphics(c("/img/Saumon.jpg"),error= FALSE)
 ```
 
-```{r, echo= FALSE, error= FALSE}
-knitr::include_graphics(c("/img/Thon.jpg","/img/Saumon.jpg"),error= FALSE)
+... to coding recommendation systems for users using Amazon.
+
+```{r, echo= FALSE, error= FALSE, out.width= "80%", out.height= "20%", fig.show= 'hold', fig.align='center'}
+knitr::include_graphics(c("/img/pyth.jpg"),error= FALSE)
 ```
+
+I can now proudly say that I am a Student at the **London Business School**. I am very excited to pursue this prestigious University and make friends along the way.
