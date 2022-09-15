@@ -12,4 +12,4 @@ slug: python
 title: Python Project
 ---
 
-caca
+**Python** entered my life about 1 year ago and has not left my side since. I was first initiated to **python** when I was confronted with an assignment I had to hand in. I developed a *crypto-trading bot*. It was as hard as it seems, especially with no past experience in coding. Eventually *python* became my friend. I coded various algorithms during my internship at [S&P Global](https://www.spglobal.com/en/). One algorithm calculated the under-performing stocks in an ETF. *Python* followed me when I followed an intense program at [MIT](https://professional.mit.edu/course-catalog/applied-data-science-program) where I discovered it's true power. In this section I will focus on my final project I handed in. 
