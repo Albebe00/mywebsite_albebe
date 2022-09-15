@@ -8,15 +8,15 @@ draft: false
 image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your iPhone pics wont work
 
 keywords: ""
-slug: about
+slug: aboutm
 title: About me
 ---
 
 Hi, I'm **Alberic**. I have lived nearly all my life in London so I consider myself a Englishmen even though I am French. My passions go from cooking food...
 
 
-```{r, echo= FALSE, error= FALSE, out.width= "50%", out.height= "20%", fig.show= 'hold', fig.align='center'}
-knitr::include_graphics(c("/img/Saumon.jpg"),error= FALSE)
+```{r, echo= FALSE, error= FALSE, out.width= "30%", out.height= "5%", fig.show= 'hold', fig.align='center'}
+knitr::include_graphics(c("/img/risotto.jpg"),error= FALSE)
 ```
 
 ... to coding recommendation systems for Amazon users.

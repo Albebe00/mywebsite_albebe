@@ -45,18 +45,18 @@ params:
       # - icon: fa-twitter
       #   label: Twitter
       #   url: https://www.twitter.com
-      - icon: fa-facebook
-        label: Facebook
-        url: https://www.facebook.com
-      - icon: fa-instagram
-        label: Instagram
-        url: https://www.instagram.com
+      # - icon: fa-facebook
+      #   label: Facebook
+      #   url: https://www.facebook.com
+      # - icon: fa-instagram
+      #   label: Instagram
+      #   url: https://www.instagram.com
       - icon: fa-github
         label: GitHub
         url: https://github.com/Albebe00
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: https://www.linkedin.com/in/alberic-teisseire-903a33145
   image: ''
   name: Your name
   navigation:
@@ -84,7 +84,7 @@ params:
       - image: albebe.jpg
         subtitle: The story of my life
         title: About me
-        url: blogs/about
+        url: blogs/aboutm
       - image: City.jpg
         subtitle: More about me professionally
         title: CV
@@ -95,8 +95,8 @@ params:
         url: blogs/pythonn
       - image: foot_sun.jpg
         subtitle: My life
-        title: Sport
-        url: blogs/sport
+        title: Sport & Music
+        url: blogs/sportmusic
       # - image: pic05.jpg
       #   subtitle: Ipsum Dolor Sit Amet
       #   title: Consequat
