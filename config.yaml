@@ -84,11 +84,11 @@ params:
       - image: pic01.jpg
         subtitle: The story of my life
         title: About me
-        url: blogs/about
+        url: blogs/aboutme
       - image: pic02.jpg
         subtitle: More about me professionally
         title: CV
-        url: blogs/tempus
+        url: blogs/cv
       - image: pic03.jpg
         subtitle: Lorem Etiam Nullam
         title: Python Project
