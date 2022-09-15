@@ -19,7 +19,7 @@ Hi, I'm **Alberic**. I have lived nearly all my life in London so I consider mys
 knitr::include_graphics(c("/img/Saumon.jpg"),error= FALSE)
 ```
 
-... to coding recommendation systems for users using Amazon.
+... to coding recommendation systems for Amazon users.
 
 ```{r, echo= FALSE, error= FALSE, out.width= "80%", out.height= "20%", fig.show= 'hold', fig.align='center'}
 knitr::include_graphics(c("/img/pyth.jpg"),error= FALSE)
