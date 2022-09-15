@@ -25,4 +25,4 @@ knitr::include_graphics(c("/img/Saumon.jpg"),error= FALSE)
 knitr::include_graphics(c("/img/pyth.jpg"),error= FALSE)
 ```
 
-I can now proudly say that I am a Student at the **London Business School**. I am very excited to pursue this prestigious University and make friends along the way.
+I can now proudly say that I am a Student at the [London Business School](https://www.london.edu/). I am very excited to pursue this prestigious University and make friends along the way.
